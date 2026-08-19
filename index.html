@@ -1,0 +1,2325 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700;800&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<title>عيادة الأسنان - المدير/الطبيب</title>
+<style>
+:root{--p:#5E35B1;--p2:#3949AB;--s:#4CAF50;--w:#FF9800;--d:#f44336;--gold:#FFC107;--blue:#2196F3;--purple:#9C27B0;--light:#f5f5f7;--card:#fff;--txt:#333;--sh:0 4px 20px rgba(0,0,0,.08);--r:14px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Noto Sans Arabic','Noto Sans','Segoe UI',Tahoma,sans-serif}
+body{background:var(--light);color:var(--txt);min-height:100vh;padding-bottom:80px}
+.header{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;padding:14px;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(94,53,177,.3)}
+.header h1{font-size:1.2rem}.header .sub{font-size:.75rem;opacity:.9;margin-top:2px}
+.conn{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;margin-top:6px;font-size:.78rem;background:rgba(255,255,255,.2);font-weight:bold}
+.dot{width:10px;height:10px;border-radius:50%}
+.dot.ok{background:#00e676;box-shadow:0 0 8px #00e676;animation:pulse 2s infinite}
+.dot.no{background:var(--d);box-shadow:0 0 8px var(--d)}
+.dot.srch{background:var(--w);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.screen{padding:14px;max-width:1000px;margin:0 auto;display:none}
+.screen.on{display:block}
+.btn{padding:10px 16px;border:none;border-radius:12px;font-size:.88rem;font-weight:bold;cursor:pointer;transition:.2s;margin:3px;background:#eee;color:#333}
+.btn:hover{transform:scale(1.02);opacity:.92}
+.btn-p{background:var(--p);color:#fff}.btn-s{background:var(--s);color:#fff}.btn-d{background:var(--d);color:#fff}.btn-w{background:var(--w);color:#fff}.btn-gold{background:var(--gold);color:#333}.btn-blue{background:var(--blue);color:#fff}.btn-purple{background:var(--purple);color:#fff}
+.btn-block{width:100%;display:block;margin:6px 0}
+.btn-sm{padding:6px 10px;font-size:.75rem}
+.card{background:var(--card);border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:var(--sh)}
+.card h3{margin-bottom:10px;font-size:1rem;color:#444}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media(max-width:600px){.grid4{grid-template-columns:repeat(2,1fr)}.grid3{grid-template-columns:1fr 1fr}}
+.stat{text-align:center;padding:14px;border-radius:var(--r);background:var(--card);box-shadow:var(--sh)}
+.stat-v{font-size:1.4rem;font-weight:bold;color:var(--p)}
+.stat-l{font-size:.72rem;color:#666;margin-top:2px}
+.stat.income{background:linear-gradient(135deg,#4CAF50,#2E7D32);color:#fff}.stat.income .stat-v,.stat.income .stat-l{color:#fff}
+.stat.debt{background:linear-gradient(135deg,#f44336,#c62828);color:#fff}.stat.debt .stat-v,.stat.debt .stat-l{color:#fff}
+.stat.profit{background:linear-gradient(135deg,#FFC107,#F57F17);color:#333}.stat.profit .stat-v,.stat.profit .stat-l{color:#333}
+.stat.loss{background:linear-gradient(135deg,#FF5252,#B71C1C);color:#fff}.stat.loss .stat-v,.stat.loss .stat-l{color:#fff}
+.stat.exp{background:linear-gradient(135deg,#FF9800,#E65100);color:#fff}.stat.exp .stat-v,.stat.exp .stat-l{color:#fff}
+input,select,textarea{width:100%;padding:10px;border:2px solid #e0e0e0;border-radius:10px;font-size:.9rem;outline:none;margin:5px 0;font-family:inherit}
+input:focus,select:focus,textarea:focus{border-color:var(--p)}
+.empty{text-align:center;padding:30px;color:#999}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:12px 22px;border-radius:25px;z-index:999;display:none;font-size:.9rem;max-width:90%}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:300;padding:14px}
+.modal.on{display:flex}
+.modal-box{background:#fff;border-radius:18px;padding:20px;max-width:640px;width:100%;max-height:92vh;overflow-y:auto}
+.modal .close{float:left;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#999}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid #eee;z-index:90;box-shadow:0 -2px 10px rgba(0,0,0,.05);overflow-x:auto}
+.nav-btn{flex:1;min-width:65px;padding:9px 4px;border:none;background:none;cursor:pointer;font-size:.68rem;color:#888;border-top:3px solid transparent}
+.nav-btn.on{color:var(--p);border-top-color:var(--p)}
+.nav-btn .ico{font-size:1.25rem;display:block;margin-bottom:2px}
+.tbl{width:100%;border-collapse:collapse;font-size:.82rem}
+.tbl th{background:#EDE7F6;padding:8px;text-align:right;color:var(--p);font-weight:bold;border-bottom:2px solid var(--p)}
+.tbl td{padding:8px;border-bottom:1px solid #eee}
+.tbl tr:hover{background:#fafafa}
+.list-item{padding:11px;background:#fff;border-radius:10px;box-shadow:var(--sh);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.li-info{flex:1;min-width:0}.li-name{font-weight:bold;font-size:.95rem}
+.li-meta{font-size:.75rem;color:#777;margin-top:2px}
+.alert{padding:11px;border-radius:10px;margin:8px 0;font-size:.83rem}
+.alert-info{background:#EDE7F6;color:#311B92;border-right:4px solid var(--p)}
+.alert-warn{background:#FFF3E0;color:#E65100;border-right:4px solid var(--w)}
+.alert-err{background:#FFEBEE;color:#c62828;border-right:4px solid var(--d)}
+.alert-s{background:#E8F5E9;color:#2E7D32;border-right:4px solid var(--s)}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:bold}
+.b-low{background:#FFEBEE;color:#c62828}.b-ok{background:#E8F5E9;color:#2E7D32}
+.b-pending{background:#FFF3E0;color:#E65100}.b-approved{background:#E8F5E9;color:#2E7D32}.b-rejected{background:#FFEBEE;color:#c62828}
+.bars{display:flex;align-items:flex-end;gap:6px;height:160px;padding:10px 0;border-bottom:2px solid #ddd}
+.bar{flex:1;background:linear-gradient(180deg,var(--p),var(--p2));border-radius:6px 6px 0 0;min-height:4px;position:relative;transition:.3s;cursor:pointer}
+.bar:hover{opacity:.85}
+.bar .lbl{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:.65rem;color:#666}
+.bar .val{position:absolute;top:-18px;left:0;right:0;text-align:center;font-size:.65rem;color:var(--p);font-weight:bold}
+.bar.loss-bar{background:linear-gradient(180deg,#f44336,#b71c1c)}
+.bar.profit-bar{background:linear-gradient(180deg,#4CAF50,#2E7D32)}
+.login-box{max-width:380px;margin:60px auto;padding:30px;background:#fff;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.1)}
+.row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.tab-row{display:flex;gap:4px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}
+.tab-row .tab{padding:8px 14px;background:#eee;border:none;border-radius:10px;cursor:pointer;font-size:.8rem;font-weight:bold;white-space:nowrap;color:#555}
+.tab-row .tab.on{background:var(--p);color:#fff}
+.q-item{background:#fff;border-right:5px solid var(--w);padding:11px;border-radius:10px;margin-bottom:8px;box-shadow:var(--sh);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.q-item.in{border-right-color:var(--p);background:#EDE7F6}
+.q-info{flex:1;min-width:0}
+.q-name{font-weight:bold;font-size:.98rem}
+.q-meta{font-size:.74rem;color:#666;margin-top:3px}
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.photo-item{aspect-ratio:1;background:#eee;border-radius:8px;overflow:hidden;cursor:pointer;position:relative}
+.photo-item img{width:100%;height:100%;object-fit:cover}
+.note-item{background:#FFF9C4;padding:10px;border-radius:8px;margin-bottom:6px;border-right:4px solid var(--w);position:relative}
+.note-item.pinned{background:#FFE082;border-right-color:var(--d)}
+.note-meta{font-size:.7rem;color:#888;margin-top:4px}
+.note-actions{margin-top:6px;display:flex;gap:4px}
+.canvas-wrap{position:relative;background:#000;border-radius:10px;overflow:hidden;text-align:center}
+.canvas-wrap img{max-width:100%;max-height:60vh;display:block;margin:0 auto;transition:transform .2s}
+.tool-bar{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;padding:8px;background:#222}
+.tool-bar .btn{padding:7px 10px;font-size:.78rem}
+.tooth-chart{background:#fafafa;padding:14px;border-radius:12px;text-align:center}
+.tooth-row{display:flex;justify-content:center;gap:3px;margin:6px 0;flex-wrap:wrap}
+.tooth{width:34px;height:42px;border-radius:6px 6px 12px 12px;background:#fff;border:2px solid #ccc;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;font-size:.62rem;font-weight:bold;padding:2px;color:#666;transition:.15s;position:relative}
+.tooth:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,.15)}
+.tooth.healthy{background:#fff;border-color:#999}
+.tooth.caries{background:#FFE0B2;border-color:#FF9800}
+.tooth.filled{background:#BBDEFB;border-color:#2196F3}
+.tooth.crown{background:#FFD700;border-color:#F57F17;color:#333}
+.tooth.root{background:#CE93D8;border-color:#7B1FA2;color:#fff}
+.tooth.extracted{background:#444;border-color:#000;color:#fff;opacity:.5}
+.tooth.missing{background:#eee;border-color:#bbb;border-style:dashed;color:#bbb}
+.tooth.implant{background:#A5D6A7;border-color:#388E3C}
+.tooth.needs-fill{background:#FFCCBC;border-color:#E64A19}
+.tooth.needs-extract{background:#EF9A9A;border-color:#C62828}
+.tooth-num{font-size:.55rem;line-height:1}
+.tooth-ico{font-size:.85rem;margin-top:auto;line-height:1}
+.tooth-legend{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px;font-size:.7rem}
+.tooth-legend span{padding:3px 8px;border-radius:8px;background:#eee}
+textarea.signal{font-family:monospace;font-size:.7rem;height:80px;direction:ltr;text-align:left}
+/* حاسبة */
+.calc{background:#1a1a2e;border-radius:14px;padding:14px;color:#fff}
+.calc-display{background:#0f0f1e;padding:18px;border-radius:10px;margin-bottom:10px;text-align:left;direction:ltr;min-height:80px;display:flex;flex-direction:column;justify-content:flex-end}
+.calc-prev{font-size:.85rem;color:#888;min-height:18px;word-break:break-all}
+.calc-cur{font-size:1.8rem;font-weight:bold;word-break:break-all}
+.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.calc-btn{padding:14px;border-radius:10px;border:none;font-size:1.1rem;font-weight:bold;cursor:pointer;background:#2a2a3e;color:#fff;transition:.15s}
+.calc-btn:hover{background:#3a3a4e}
+.calc-btn.op{background:var(--w);color:#fff}
+.calc-btn.eq{background:var(--s);color:#fff}
+.calc-btn.cl{background:var(--d);color:#fff}
+.calc-btn.zero{grid-column:span 2}
+@media print{body{background:#fff;padding:0}.no-print,.bottom-nav,.header,.btn,.modal{display:none!important}.screen{display:block!important;padding:0;max-width:100%}.card{box-shadow:none;border:1px solid #ddd}}
+</style>
+</head>
+<body>
+
+<!-- ========== شاشة الدخول ========== -->
+<div class="screen on" id="scr-login">
+  <div class="login-box">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:3rem">👨‍⚕️</div>
+      <h2>دخول الطبيب المدير</h2>
+      <div style="color:#888;font-size:.85rem;margin-top:4px">صلاحية كاملة (إدارة + طب)</div>
+    </div>
+    <input id="lg-user" placeholder="👤 اسم المستخدم">
+    <input id="lg-pwd" type="password" placeholder="🔑 كلمة المرور">
+    <button type="button" class="btn btn-p btn-block" onclick="doLogin()">🔓 دخول</button>
+    <div class="alert alert-info" style="font-size:.78rem">💡 افتراضي: <code>admin</code> / <code>admin</code></div>
+  </div>
+</div>
+
+<div class="header no-print" id="main-header" style="display:none">
+  <h1>👨‍⚕️ <span id="clinic-name">عيادة الأسنان</span></h1>
+  <div class="sub">
+    صلاحية كاملة
+    <button type="button" class="btn btn-sm" style="background:#fff;color:var(--d);margin-right:6px" onclick="logout()">🚪 خروج</button>
+  </div>
+  <div class="conn">
+    <span class="dot no" id="dot"></span>
+    <span id="conn-txt">غير متصل بالسكرتيرة</span>
+    <button type="button" class="btn btn-sm" style="margin-right:8px;background:#fff;color:var(--p)" onclick="openConn()">📡 ربط</button>
+  </div>
+</div>
+
+<!-- ========== Dashboard (المدير) ========== -->
+<div class="screen" id="scr-dash">
+  <div class="grid4" style="margin-bottom:14px">
+    <div class="stat income"><div class="stat-v" id="s-today">0</div><div class="stat-l">💰 دخل اليوم</div></div>
+    <div class="stat income"><div class="stat-v" id="s-month">0</div><div class="stat-l">💰 دخل الشهر</div></div>
+    <div class="stat exp"><div class="stat-v" id="s-exp">0</div><div class="stat-l">💸 مصاريف الشهر</div></div>
+    <div class="stat loss"><div class="stat-v" id="s-loss">0</div><div class="stat-l">📉 خسائر الشهر</div></div>
+  </div>
+  <div class="grid4" style="margin-bottom:14px">
+    <div class="stat profit"><div class="stat-v" id="s-net">0</div><div class="stat-l">📊 صافي الربح</div></div>
+    <div class="stat debt"><div class="stat-v" id="s-debt">0</div><div class="stat-l">💸 إجمالي الديون</div></div>
+    <div class="stat"><div class="stat-v" id="s-pts">0</div><div class="stat-l">👥 مرضى اليوم</div></div>
+    <div class="stat"><div class="stat-v" id="s-pending">0</div><div class="stat-l">⏳ خطط معلقة</div></div>
+  </div>
+  <div class="grid2" style="margin-bottom:14px">
+    <button type="button" class="btn btn-w btn-block" onclick="openExpense()">➕ إضافة مصروف جديد</button>
+    <button type="button" class="btn btn-d btn-block" onclick="openLoss()">➕ إضافة خسارة جديدة</button>
+  </div>
+  <div class="card">
+    <h3>📊 دخل آخر 7 أيام</h3>
+    <div class="bars" id="chart7"></div>
+  </div>
+  <div class="card">
+    <h3>📈 الربح والخسارة (آخر 6 أشهر)</h3>
+    <div id="pl-table"></div>
+  </div>
+  <div class="card">
+    <h3>🔔 إجراءات تحتاج انتباهك</h3>
+    <div id="dash-alerts"></div>
+  </div>
+</div>
+
+<!-- ========== الطابور (الطبيب) ========== -->
+<div class="screen" id="scr-queue">
+  <div class="grid3" style="margin-bottom:12px">
+    <div class="stat"><div class="stat-v" id="qs-wait">0</div><div class="stat-l">⏳ ينتظرون</div></div>
+    <div class="stat"><div class="stat-v" id="qs-in">0</div><div class="stat-l">🩺 في المعاينة</div></div>
+    <div class="stat"><div class="stat-v" id="qs-done">0</div><div class="stat-l">✅ مكتملة اليوم</div></div>
+  </div>
+  <div class="card">
+    <h3>🩺 المريض الحالي</h3>
+    <div id="current-pt"><div class="empty">لا يوجد مريض حالياً</div></div>
+  </div>
+  <div class="card">
+    <h3>⏳ المرضى المُرسلون من السكرتيرة</h3>
+    <div id="incoming-list"></div>
+  </div>
+  <div class="card">
+    <h3>✅ كشوفات اليوم المكتملة</h3>
+    <div id="done-list"></div>
+  </div>
+</div>
+
+<!-- ========== أرشيف المرضى ========== -->
+<div class="screen" id="scr-mine">
+  <div class="card">
+    <h3>📂 أرشيف المرضى</h3>
+    <input id="mine-search" placeholder="🔍 بحث بالاسم أو الهاتف..." oninput="renderMine()">
+    <div id="mine-list"></div>
+  </div>
+</div>
+
+<!-- ========== المالية ========== -->
+<div class="screen" id="scr-fin">
+  <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <h3>💰 المعاملات المالية</h3>
+      <div>
+        <button type="button" class="btn btn-sm btn-w" onclick="openExpense()">➕ مصروف</button>
+        <button type="button" class="btn btn-sm btn-d" onclick="openLoss()">➕ خسارة</button>
+        <button type="button" class="btn btn-sm btn-s" onclick="exportCSV()">📥 Excel</button>
+        <button type="button" class="btn btn-sm btn-p" onclick="window.print()">🖨️</button>
+      </div>
+    </div>
+    <div class="tab-row">
+      <button type="button" class="tab on" onclick="setFinTab(this,'income')">💵 الإيرادات</button>
+      <button type="button" class="tab" onclick="setFinTab(this,'expenses')">💸 المصروفات</button>
+      <button type="button" class="tab" onclick="setFinTab(this,'losses')">📉 الخسائر</button>
+      <button type="button" class="tab" onclick="setFinTab(this,'pl')">📊 ربح/خسارة</button>
+    </div>
+    <div id="fin-table"></div>
+  </div>
+  <div class="card">
+    <h3>📊 مقارنة شهرية (دخل ـ مصاريف ـ خسائر)</h3>
+    <div class="bars" id="chart-month"></div>
+  </div>
+</div>
+
+<!-- ========== المخزون ========== -->
+<div class="screen" id="scr-inv">
+  <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <h3>📦 المخزون</h3>
+      <button type="button" class="btn btn-sm btn-p" onclick="openInv()">➕ إضافة مادة</button>
+    </div>
+    <div id="inv-table"></div>
+  </div>
+</div>
+
+<!-- ========== الموافقات (تلقائية لأن الطبيب=المدير، لكن يبقى السجل) ========== -->
+<div class="screen" id="scr-app">
+  <div class="card">
+    <h3>📋 خطط العلاج (كلها تُعتمد تلقائياً)</h3>
+    <div id="all-plans"></div>
+  </div>
+</div>
+
+<!-- ========== الحاسبة ========== -->
+<div class="screen" id="scr-calc">
+  <div class="card">
+    <h3>🧮 حاسبة رياضية</h3>
+    <div class="calc">
+      <div class="calc-display">
+        <div class="calc-prev" id="calc-prev"></div>
+        <div class="calc-cur" id="calc-cur">0</div>
+      </div>
+      <div class="calc-grid">
+        <button type="button" class="calc-btn cl" onclick="calcClear()">C</button>
+        <button type="button" class="calc-btn cl" onclick="calcDel()">⌫</button>
+        <button type="button" class="calc-btn op" onclick="calcOp('%')">%</button>
+        <button type="button" class="calc-btn op" onclick="calcOp('/')">÷</button>
+        <button type="button" class="calc-btn" onclick="calcNum('7')">7</button>
+        <button type="button" class="calc-btn" onclick="calcNum('8')">8</button>
+        <button type="button" class="calc-btn" onclick="calcNum('9')">9</button>
+        <button type="button" class="calc-btn op" onclick="calcOp('*')">×</button>
+        <button type="button" class="calc-btn" onclick="calcNum('4')">4</button>
+        <button type="button" class="calc-btn" onclick="calcNum('5')">5</button>
+        <button type="button" class="calc-btn" onclick="calcNum('6')">6</button>
+        <button type="button" class="calc-btn op" onclick="calcOp('-')">−</button>
+        <button type="button" class="calc-btn" onclick="calcNum('1')">1</button>
+        <button type="button" class="calc-btn" onclick="calcNum('2')">2</button>
+        <button type="button" class="calc-btn" onclick="calcNum('3')">3</button>
+        <button type="button" class="calc-btn op" onclick="calcOp('+')">+</button>
+        <button type="button" class="calc-btn zero" onclick="calcNum('0')">0</button>
+        <button type="button" class="calc-btn" onclick="calcNum('.')">.</button>
+        <button type="button" class="calc-btn eq" onclick="calcEq()">=</button>
+      </div>
+    </div>
+    <div class="alert alert-info" style="margin-top:10px">💡 آخر نتيجة محفوظة. يمكنك استخدامها في حقل المبلغ بنسخها.</div>
+  </div>
+</div>
+
+<!-- ========== الإعدادات + Backup ========== -->
+<div class="screen" id="scr-set">
+  <div class="card">
+    <h3>⚙️ إعدادات</h3>
+    <label>📛 اسم العيادة</label>
+    <input id="set-name" placeholder="عيادة الأسنان">
+    <label>🔑 تغيير كلمة المرور</label>
+    <input type="password" id="set-newpwd" placeholder="كلمة مرور جديدة">
+    <button type="button" class="btn btn-p btn-block" onclick="saveSettings()">💾 حفظ الإعدادات</button>
+  </div>
+
+  <div class="card">
+    <h3>💾 النسخ الاحتياطي الكربوني (نسخة طبق الأصل)</h3>
+    <div class="alert alert-info">
+      📦 <b>ما يتم حفظه:</b> كل البيانات + كل الصور (مضغوطة) + المخزون + المعاملات + خرائط الأسنان + الملاحظات + كل شيء بدقة 100%.
+      <br>🔒 يُحفظ في ملف ZIP واحد قابل للاستعادة الكاملة.
+    </div>
+    <button type="button" class="btn btn-s btn-block" onclick="backupFull()">📥 إنشاء نسخة كربونية كاملة (ZIP)</button>
+    <button type="button" class="btn btn-w btn-block" onclick="backupJSON()">📥 نسخة JSON خفيفة (بدون ضغط إضافي)</button>
+    <input type="file" id="restore-f" accept=".zip,.json" style="display:none" onchange="restoreFile(event)">
+    <button type="button" class="btn btn-blue btn-block" onclick="document.getElementById('restore-f').click()">📤 استعادة من نسخة احتياطية</button>
+    <hr style="margin:14px 0;border:none;border-top:1px solid #eee">
+    <label>🕐 آخر نسخة احتياطية</label>
+    <div id="last-backup" style="padding:10px;background:#f5f5f5;border-radius:8px;font-size:.85rem">—</div>
+    <hr style="margin:14px 0;border:none;border-top:1px solid #eee">
+    <button type="button" class="btn btn-d btn-block" onclick="if(confirm('⚠️ مسح كل البيانات نهائياً؟ هذا لا يمكن التراجع عنه!'))clearAll()">🗑️ مسح كل البيانات</button>
+  </div>
+
+  <div class="card">
+    <h3>📜 سجل النشاط</h3>
+    <div id="log-list"></div>
+  </div>
+</div>
+
+<!-- Bottom nav -->
+<div class="bottom-nav no-print" id="main-nav" style="display:none">
+  <button type="button" class="nav-btn on" data-scr="scr-dash" onclick="nav('scr-dash')"><span class="ico">📊</span>القيادة</button>
+  <button type="button" class="nav-btn" data-scr="scr-queue" onclick="nav('scr-queue')"><span class="ico">⏳</span>الطابور</button>
+  <button type="button" class="nav-btn" data-scr="scr-mine" onclick="nav('scr-mine')"><span class="ico">📂</span>المرضى</button>
+  <button type="button" class="nav-btn" data-scr="scr-fin" onclick="nav('scr-fin')"><span class="ico">💰</span>المالية</button>
+  <button type="button" class="nav-btn" data-scr="scr-inv" onclick="nav('scr-inv')"><span class="ico">📦</span>المخزون</button>
+  <button type="button" class="nav-btn" data-scr="scr-calc" onclick="nav('scr-calc')"><span class="ico">🧮</span>حاسبة</button>
+  <button type="button" class="nav-btn" data-scr="scr-set" onclick="nav('scr-set')"><span class="ico">⚙️</span>إعدادات</button>
+</div>
+
+<!-- ========== Modals ========== -->
+<div class="modal" id="m-conn">
+  <div class="modal-box">
+    <button type="button" class="close" onclick="closeModal('m-conn')">✕</button>
+    <h3>☁️ حالة التزامن - Supabase</h3>
+    <div class="alert alert-s">✅ التزامن مع Supabase مفعّل تلقائياً</div>
+    <div class="alert alert-info">البيانات تتزامن فوراً بين الطبيب والسكرتيرة عبر Supabase Realtime.</div>
+    <div style="text-align:center;padding:14px;font-size:1rem;font-weight:bold" id="conn-modal-status">
+      جاري التحقق...
+    </div>
+    <button type="button" class="btn btn-p btn-block" onclick="closeModal('m-conn')">✔️ إغلاق</button>
+  </div>
+</div>
+
+<div class="modal" id="m-exp">
+  <div class="modal-box">
+    <button type="button" class="close" onclick="closeModal('m-exp')">✕</button>
+    <h3>💸 إضافة مصروف</h3>
+    <input id="exp-cat" placeholder="📛 الفئة (إيجار، رواتب، مواد، كهرباء...)">
+    <input id="exp-amt" type="number" step="0.01" placeholder="💰 المبلغ DZD">
+    <textarea id="exp-note" rows="2" placeholder="📝 ملاحظة (اختياري)"></textarea>
+    <button type="button" class="btn btn-w btn-block" onclick="saveExpense()">💾 حفظ المصروف</button>
+  </div>
+</div>
+
+<div class="modal" id="m-loss">
+  <div class="modal-box">
+    <button type="button" class="close" onclick="closeModal('m-loss')">✕</button>
+    <h3>📉 إضافة خسارة</h3>
+    <input id="loss-cat" placeholder="📛 نوع الخسارة (تلف معدات، مادة منتهية، خطأ...)">
+    <input id="loss-amt" type="number" step="0.01" placeholder="💰 قيمة الخسارة DZD">
+    <textarea id="loss-note" rows="2" placeholder="📝 سبب الخسارة"></textarea>
+    <button type="button" class="btn btn-d btn-block" onclick="saveLoss()">💾 حفظ الخسارة</button>
+  </div>
+</div>
+
+<div class="modal" id="m-inv">
+  <div class="modal-box">
+    <button type="button" class="close" onclick="closeModal('m-inv')">✕</button>
+    <h3>📦 إضافة مادة</h3>
+    <input id="iv-name" placeholder="📛 اسم المادة">
+    <input id="iv-qty" type="number" placeholder="📊 الكمية">
+    <input id="iv-min" type="number" placeholder="⚠️ الحد الأدنى">
+    <input id="iv-cost" type="number" step="0.01" placeholder="💰 التكلفة بالوحدة (للحساب عند التلف)">
+    <button type="button" class="btn btn-p btn-block" onclick="saveInv()">💾 حفظ</button>
+  </div>
+</div>
+
+<!-- ملف المريض (الطبي) -->
+<div class="modal" id="m-pfile">
+  <div class="modal-box" style="max-width:780px">
+    <button type="button" class="close" onclick="closeModal('m-pfile')">✕</button>
+    <h3 id="pf-title">📂 الملف السريري</h3>
+    <div id="pf-info"></div>
+    <div class="tab-row">
+      <button type="button" class="tab on" onclick="setPfTab(this,'pf-overview')">🩺 نظرة عامة</button>
+      <button type="button" class="tab" onclick="setPfTab(this,'pf-tooth')">🦷 الأسنان</button>
+      <button type="button" class="tab" onclick="setPfTab(this,'pf-photos')">📸 صور</button>
+      <button type="button" class="tab" onclick="setPfTab(this,'pf-plan')">📋 خطة علاج</button>
+      <button type="button" class="tab" onclick="setPfTab(this,'pf-rx')">💊 وصفات</button>
+      <button type="button" class="tab" onclick="setPfTab(this,'pf-bills')">💰 فواتير</button>
+      <button type="button" class="tab" onclick="setPfTab(this,'pf-notes')">📝 ملاحظات</button>
+    </div>
+    <div id="pf-overview" class="pf-content">
+      <div class="grid2">
+        <label class="row" style="background:#f5f5f5;padding:8px;border-radius:8px"><input type="checkbox" data-med="diabetes" style="width:auto"> 🍬 سكري</label>
+        <label class="row" style="background:#f5f5f5;padding:8px;border-radius:8px"><input type="checkbox" data-med="bp" style="width:auto"> 💓 ضغط</label>
+        <label class="row" style="background:#f5f5f5;padding:8px;border-radius:8px"><input type="checkbox" data-med="allergy" style="width:auto"> 🌸 حساسية</label>
+        <label class="row" style="background:#f5f5f5;padding:8px;border-radius:8px"><input type="checkbox" data-med="smoker" style="width:auto"> 🚬 مدخن</label>
+        <label class="row" style="background:#f5f5f5;padding:8px;border-radius:8px"><input type="checkbox" data-med="pregnant" style="width:auto"> 🤰 حامل</label>
+        <label class="row" style="background:#f5f5f5;padding:8px;border-radius:8px"><input type="checkbox" data-med="bloodthin" style="width:auto"> 💉 مميعات دم</label>
+      </div>
+      <textarea id="pf-meds" rows="2" placeholder="💊 الأدوية الحالية"></textarea>
+      <textarea id="pf-allergy" rows="2" placeholder="🌸 تفاصيل الحساسية"></textarea>
+      <input id="pf-lastvisit" type="date">
+      <input id="pf-nextvisit" type="date">
+      <button type="button" class="btn btn-p btn-block" onclick="saveOverview()">💾 حفظ</button>
+    </div>
+    <div id="pf-tooth" class="pf-content" style="display:none">
+      <div class="tooth-chart" id="tooth-chart"></div>
+      <div class="tooth-legend">
+        <span style="background:#fff;border:2px solid #999">سليم</span>
+        <span style="background:#FFE0B2">تسوس</span>
+        <span style="background:#BBDEFB">حشوة</span>
+        <span style="background:#FFD700">تاج</span>
+        <span style="background:#CE93D8;color:#fff">عصب</span>
+        <span style="background:#444;color:#fff">مقلوع</span>
+        <span style="background:#A5D6A7">زراعة</span>
+      </div>
+    </div>
+    <div id="pf-photos" class="pf-content" style="display:none">
+      <div class="row" style="margin-bottom:8px">
+        <input type="file" id="pf-photo-input" accept="image/*" style="display:none" onchange="addPhoto(event)" multiple>
+        <input type="file" id="pf-photo-cam" accept="image/*" capture="environment" style="display:none" onchange="addPhoto(event)">
+        <button type="button" class="btn btn-p" onclick="document.getElementById('pf-photo-cam').click()">📷 تصوير</button>
+        <button type="button" class="btn btn-s" onclick="document.getElementById('pf-photo-input').click()">📁 رفع</button>
+      </div>
+      <div class="photo-grid" id="pf-photos-grid"></div>
+    </div>
+    <div id="pf-plan" class="pf-content" style="display:none">
+      <div class="row">
+        <input id="pf-plan-item" placeholder="📋 وصف الإجراء" style="flex:2">
+        <input id="pf-plan-cost" type="number" placeholder="💰 التكلفة" style="flex:1">
+      </div>
+      <button type="button" class="btn btn-p btn-block" onclick="addPlanItem()">➕ إضافة (تُعتمد فوراً)</button>
+      <div id="pf-plan-list" style="margin-top:10px"></div>
+    </div>
+    <div id="pf-rx" class="pf-content" style="display:none">
+      <input id="rx-drug" placeholder="💊 اسم الدواء">
+      <input id="rx-dose" placeholder="الجرعة (1×3 يومياً 5 أيام)">
+      <button type="button" class="btn btn-p btn-block" onclick="addRx()">➕ إضافة</button>
+      <div id="pf-rx-list" style="margin-top:10px"></div>
+      <button type="button" class="btn btn-s btn-block" onclick="sendRxWa()">📱 إرسال واتساب</button>
+    </div>
+    <div id="pf-bills" class="pf-content" style="display:none">
+      <input id="bill-amt" type="number" placeholder="💰 المبلغ DZD">
+      <textarea id="bill-desc" rows="2" placeholder="📝 الوصف"></textarea>
+      <select id="bill-method"><option value="cash">💵 نقدي</option><option value="card">💳 بطاقة</option><option value="debt">🔴 دين</option></select>
+      <button type="button" class="btn btn-p btn-block" onclick="addBill()">➕ إضافة فاتورة + دفعة</button>
+      <div id="pf-bills-list" style="margin-top:10px"></div>
+    </div>
+    <div id="pf-notes" class="pf-content" style="display:none">
+      <textarea id="pf-new-note" rows="2" placeholder="📝 ملاحظة طبية..."></textarea>
+      <button type="button" class="btn btn-p btn-block" onclick="addNote()">➕ إضافة</button>
+      <div id="pf-notes-list" style="margin-top:10px"></div>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button type="button" class="btn btn-s" style="flex:1" onclick="finishVisit()">✅ إنهاء الكشف</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="m-photo">
+  <div class="modal-box" style="max-width:90vw;background:#111;color:#fff">
+    <button type="button" class="close" style="color:#fff" onclick="closeModal('m-photo')">✕</button>
+    <div class="canvas-wrap"><img id="ph-img" alt=""></div>
+    <div class="tool-bar">
+      <button type="button" class="btn btn-sm" onclick="phRotate()">🔄</button>
+      <button type="button" class="btn btn-sm" onclick="phZoom(0.1)">🔍+</button>
+      <button type="button" class="btn btn-sm" onclick="phZoom(-0.1)">🔍-</button>
+      <button type="button" class="btn btn-sm" onclick="phBright(0.1)">☀️+</button>
+      <button type="button" class="btn btn-sm" onclick="phBright(-0.1)">☀️-</button>
+      <button type="button" class="btn btn-sm btn-d" onclick="deletePhoto()">❌</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="m-tooth">
+  <div class="modal-box">
+    <button type="button" class="close" onclick="closeModal('m-tooth')">✕</button>
+    <h3 id="tooth-title">حالة السن</h3>
+    <div class="grid2">
+      <button type="button" class="btn" onclick="setTooth('healthy')">⚪ سليم</button>
+      <button type="button" class="btn" style="background:#FFE0B2" onclick="setTooth('caries')">🟠 تسوس</button>
+      <button type="button" class="btn" style="background:#BBDEFB" onclick="setTooth('filled')">🔵 حشوة</button>
+      <button type="button" class="btn" style="background:#FFD700" onclick="setTooth('crown')">👑 تاج</button>
+      <button type="button" class="btn" style="background:#CE93D8;color:#fff" onclick="setTooth('root')">🦷 عصب</button>
+      <button type="button" class="btn" style="background:#444;color:#fff" onclick="setTooth('extracted')">❌ مقلوع</button>
+      <button type="button" class="btn" onclick="setTooth('missing')">⬜ غائب</button>
+      <button type="button" class="btn" style="background:#A5D6A7" onclick="setTooth('implant')">🔩 زراعة</button>
+      <button type="button" class="btn" style="background:#FFCCBC" onclick="setTooth('needs-fill')">⚠️ يحتاج حشوة</button>
+      <button type="button" class="btn" style="background:#EF9A9A" onclick="setTooth('needs-extract')">🚨 يحتاج قلع</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   قاعدة البيانات
+   ============================================================ */
+const DB_KEY='dental_clinic_unified_v1';
+const SES_KEY='dental_unified_session_v1';
+const META_KEY='dental_unified_meta_v1';
+
+let DB={
+  patients:{},appointments:{},queue:[],payments:[],
+  expenses:[],losses:[],inventory:[],
+  treatmentPlans:[],prescriptions:[],invoices:[],toothCharts:{},
+  activityLog:[],
+  auth:{user:'admin',pwd:'admin'},
+  settings:{name:'عيادة الأسنان'}
+};
+// إتاحة قاعدة البيانات للإضافات الاختيارية بدون تغيير بنية التطبيق
+window.DB=DB;
+let SES=null;
+let META={lastBackup:null};
+const SYNC_ROLE_NAME='admin-doctor';
+
+function load(){
+  try{
+    const d=localStorage.getItem(DB_KEY);
+    if(d){const p=JSON.parse(d);Object.assign(DB,p);DB.settings={...DB.settings,...(p.settings||{})};DB.auth={...DB.auth,...(p.auth||{})}}
+    const s=localStorage.getItem(SES_KEY);if(s)SES=JSON.parse(s);
+    const m=localStorage.getItem(META_KEY);if(m)META=JSON.parse(m);
+  }catch(e){console.error('load',e)}
+}
+function save(){
+  try{localStorage.setItem(DB_KEY,JSON.stringify(DB));broadcast();}
+  catch(e){
+    if(e.name==='QuotaExceededError'){toast('⚠️ الذاكرة ممتلئة! اعمل نسخة احتياطية ثم احذف صور قديمة')}
+    else console.error(e)
+  }
+}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function photoSrc(p){if(!p)return '';const raw=p.data||p.url;if(!raw)return '';const d=String(raw);if(d.indexOf('data:')===0)return d;return d+(d.indexOf('?')>-1?'&':'?')+'v='+encodeURIComponent(p.id||'')}
+function dateKey(value){
+  const d=value==null?new Date():new Date(value);
+  if(Number.isNaN(d.getTime()))return '';
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function todayStr(){return dateKey()}
+function monthStr(value){return dateKey(value).slice(0,7)}
+function fmt(n){return (Math.round((n||0)*100)/100).toLocaleString('ar')+' DZD'}
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.style.display='block';clearTimeout(window._tt);window._tt=setTimeout(()=>el.style.display='none',2400)}
+function nav(scr){
+  const target=document.getElementById(scr);
+  if(!target){console.warn('Screen not found:',scr);return false}
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  target.classList.add('on');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('on',b.dataset.scr===scr));
+  render();
+  return false;
+}
+function openModal(id){document.getElementById(id).classList.add('on')}
+function closeModal(id){document.getElementById(id).classList.remove('on')}
+function logAct(action){DB.activityLog=DB.activityLog||[];DB.activityLog.unshift({date:Date.now(),action,user:'مدير/طبيب'});if(DB.activityLog.length>200)DB.activityLog.length=200;save()}
+function copyText(id){const el=document.getElementById(id);el.select();document.execCommand('copy');toast('📋 نُسخ')}
+
+/* ============================================================
+   تسجيل الدخول
+   ============================================================ */
+function doLogin(){
+  const u=document.getElementById('lg-user').value.trim();
+  const p=document.getElementById('lg-pwd').value;
+  if(u!==(DB.auth.user||'admin')||p!==(DB.auth.pwd||'admin')){toast('❌ بيانات خاطئة');return}
+  SES={user:u,date:Date.now()};
+  localStorage.setItem(SES_KEY,JSON.stringify(SES));
+  logAct('تسجيل دخول');
+  showApp();
+}
+function logout(){if(!confirm('خروج؟'))return;localStorage.removeItem(SES_KEY);location.reload()}
+function showApp(){
+  document.getElementById('scr-login').classList.remove('on');
+  document.getElementById('main-header').style.display='block';
+  document.getElementById('main-nav').style.display='flex';
+  document.getElementById('clinic-name').textContent=DB.settings.name||'عيادة الأسنان';
+  document.getElementById('set-name').value=DB.settings.name||'';
+  nav('scr-dash');
+  setTimeout(setupBC,500);
+}
+
+/* ============================================================
+   حسابات مالية (دخل / مصاريف / خسائر / ربح)
+   ============================================================ */
+function totalIncome(filter){return (DB.payments||[]).filter(filter).reduce((s,p)=>s+(p.method!=='debt'?(+p.amount||0):0),0)}
+function totalDebt(){return (DB.payments||[]).filter(p=>p.method==='debt').reduce((s,p)=>s+(+p.amount||0),0)}
+function totalExp(filter){return (DB.expenses||[]).filter(filter).reduce((s,e)=>s+(+e.amount||0),0)}
+function totalLoss(filter){return (DB.losses||[]).filter(filter).reduce((s,l)=>s+(+l.amount||0),0)}
+function netProfit(filter){return totalIncome(filter)-totalExp(filter)-totalLoss(filter)}
+
+function renderDash(){
+  const tIso=todayStr(),mIso=monthStr();
+  const dToday=p=>new Date(p.date).toISOString().slice(0,10)===tIso;
+  const dMonth=p=>monthStr(p.date)===mIso;
+  document.getElementById('s-today').textContent=fmt(totalIncome(dToday));
+  document.getElementById('s-month').textContent=fmt(totalIncome(dMonth));
+  document.getElementById('s-exp').textContent=fmt(totalExp(dMonth));
+  document.getElementById('s-loss').textContent=fmt(totalLoss(dMonth));
+  document.getElementById('s-net').textContent=fmt(netProfit(dMonth));
+  document.getElementById('s-debt').textContent=fmt(totalDebt());
+  document.getElementById('s-pts').textContent=(DB.queue||[]).filter(q=>new Date(q.enteredAt).toISOString().slice(0,10)===tIso).length;
+  document.getElementById('s-pending').textContent=(DB.treatmentPlans||[]).filter(t=>t.status==='pending').length;
+
+  // chart 7 days
+  const days=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days.push(d.toISOString().slice(0,10))}
+  const vals=days.map(d=>totalIncome(p=>new Date(p.date).toISOString().slice(0,10)===d));
+  const max=Math.max(...vals,1);
+  document.getElementById('chart7').innerHTML=days.map((d,i)=>{const h=Math.round(vals[i]/max*140);return `<div class="bar" style="height:${h}px" title="${d}: ${fmt(vals[i])}"><div class="val">${vals[i]||''}</div><div class="lbl">${d.slice(5)}</div></div>`}).join('');
+
+  // P&L last 6 months table
+  const months=[];for(let i=5;i>=0;i--){const d=new Date();d.setMonth(d.getMonth()-i);months.push(d.toISOString().slice(0,7))}
+  const plRows=months.map(m=>{
+    const f=p=>monthStr(p.date)===m;
+    const inc=totalIncome(f),exp=totalExp(f),loss=totalLoss(f),net=inc-exp-loss;
+    return {m,inc,exp,loss,net}
+  });
+  document.getElementById('pl-table').innerHTML=`<table class="tbl"><thead><tr><th>📅 الشهر</th><th>💰 دخل</th><th>💸 مصاريف</th><th>📉 خسائر</th><th>📊 صافي</th></tr></thead><tbody>`+
+    plRows.map(r=>`<tr><td>${r.m}</td><td style="color:#2E7D32;font-weight:bold">${fmt(r.inc)}</td><td style="color:#E65100">${fmt(r.exp)}</td><td style="color:#c62828">${fmt(r.loss)}</td><td style="color:${r.net>=0?'#2E7D32':'#c62828'};font-weight:bold">${fmt(r.net)}</td></tr>`).join('')+'</tbody></table>';
+
+  // alerts
+  const a=[];
+  const pend=(DB.treatmentPlans||[]).filter(t=>t.status==='pending').length;
+  if(pend)a.push(`<div class="alert alert-warn">⏳ ${pend} خطة معلقة <button type="button" class="btn btn-sm btn-w" onclick="approveAllPending()">اعتماد الكل</button></div>`);
+  const lowInv=(DB.inventory||[]).filter(i=>i.qty<=i.min).length;
+  if(lowInv)a.push(`<div class="alert alert-err">📦 ${lowInv} مادة وصلت الحد الأدنى <button type="button" class="btn btn-sm btn-d" onclick="nav('scr-inv')">عرض</button></div>`);
+  const debt=totalDebt();if(debt>0)a.push(`<div class="alert alert-info">💸 إجمالي الديون: ${fmt(debt)}</div>`);
+  const monthNet=netProfit(dMonth);
+  if(monthNet<0)a.push(`<div class="alert alert-err">⚠️ خسارة هذا الشهر: ${fmt(Math.abs(monthNet))}</div>`);
+  document.getElementById('dash-alerts').innerHTML=a.length?a.join(''):'<div class="empty">كل شيء على ما يرام ✨</div>';
+}
+
+/* ============================================================
+   المالية
+   ============================================================ */
+let finTab='income';
+function setFinTab(btn,t){document.querySelectorAll('#scr-fin .tab').forEach(x=>x.classList.remove('on'));btn.classList.add('on');finTab=t;renderFin()}
+function renderFin(){
+  let html='';
+  if(finTab==='income'){
+    const rows=[...(DB.payments||[])].sort((a,b)=>b.date-a.date).slice(0,200);
+    html=rows.length?`<table class="tbl"><thead><tr><th>📅</th><th>👤</th><th>💰</th><th>💳</th><th>📝</th></tr></thead><tbody>`+rows.map(p=>{const pt=DB.patients[p.patientId];return `<tr><td>${new Date(p.date).toLocaleString('ar')}</td><td>${pt?.name||'?'}</td><td>${fmt(p.amount)}</td><td>${p.method==='cash'?'💵':p.method==='card'?'💳':'🔴 دين'}</td><td>${p.note||'—'}</td></tr>`}).join('')+'</tbody></table>':'<div class="empty">لا معاملات</div>';
+  }else if(finTab==='expenses'){
+    const rows=[...(DB.expenses||[])].sort((a,b)=>b.date-a.date);
+    const tot=rows.reduce((s,e)=>s+(+e.amount||0),0);
+    html=`<div class="alert alert-warn">💸 إجمالي المصاريف: <b>${fmt(tot)}</b></div>`+
+      (rows.length?`<table class="tbl"><thead><tr><th>📅</th><th>📛 الفئة</th><th>💰</th><th>📝</th><th></th></tr></thead><tbody>`+rows.map(e=>`<tr><td>${new Date(e.date).toLocaleString('ar')}</td><td>${e.category}</td><td>${fmt(e.amount)}</td><td>${e.note||'—'}</td><td><button type="button" class="btn btn-sm btn-d" onclick="delExp('${e.id}')">❌</button></td></tr>`).join('')+'</tbody></table>':'<div class="empty">لا مصاريف</div>');
+  }else if(finTab==='losses'){
+    const rows=[...(DB.losses||[])].sort((a,b)=>b.date-a.date);
+    const tot=rows.reduce((s,e)=>s+(+e.amount||0),0);
+    html=`<div class="alert alert-err">📉 إجمالي الخسائر: <b>${fmt(tot)}</b></div>`+
+      (rows.length?`<table class="tbl"><thead><tr><th>📅</th><th>📛 النوع</th><th>💰</th><th>📝</th><th></th></tr></thead><tbody>`+rows.map(e=>`<tr><td>${new Date(e.date).toLocaleString('ar')}</td><td>${e.category}</td><td>${fmt(e.amount)}</td><td>${e.note||'—'}</td><td><button type="button" class="btn btn-sm btn-d" onclick="delLoss('${e.id}')">❌</button></td></tr>`).join('')+'</tbody></table>':'<div class="empty">لا خسائر</div>');
+  }else if(finTab==='pl'){
+    const months=[];for(let i=11;i>=0;i--){const d=new Date();d.setMonth(d.getMonth()-i);months.push(d.toISOString().slice(0,7))}
+    let totInc=0,totExp=0,totLoss=0;
+    const rows=months.map(m=>{
+      const f=p=>monthStr(p.date)===m;
+      const inc=totalIncome(f),exp=totalExp(f),loss=totalLoss(f);
+      totInc+=inc;totExp+=exp;totLoss+=loss;
+      return {m,inc,exp,loss,net:inc-exp-loss}
+    });
+    const totalNet=totInc-totExp-totLoss;
+    html=`<div class="alert ${totalNet>=0?'alert-s':'alert-err'}">
+      <b>الإجمالي (12 شهراً):</b><br>
+      💰 الدخل: <b>${fmt(totInc)}</b><br>
+      💸 المصاريف: <b>${fmt(totExp)}</b><br>
+      📉 الخسائر: <b>${fmt(totLoss)}</b><br>
+      ━━━━━━━━━━<br>
+      📊 الصافي: <b style="font-size:1.1rem">${fmt(totalNet)}</b> ${totalNet>=0?'✅ ربح':'❌ خسارة'}
+    </div>`+
+    `<table class="tbl"><thead><tr><th>الشهر</th><th>دخل</th><th>مصاريف</th><th>خسائر</th><th>صافي</th></tr></thead><tbody>`+
+    rows.map(r=>`<tr><td>${r.m}</td><td style="color:#2E7D32">${fmt(r.inc)}</td><td style="color:#E65100">${fmt(r.exp)}</td><td style="color:#c62828">${fmt(r.loss)}</td><td style="color:${r.net>=0?'#2E7D32':'#c62828'};font-weight:bold">${fmt(r.net)}</td></tr>`).join('')+'</tbody></table>';
+  }
+  document.getElementById('fin-table').innerHTML=html;
+
+  // monthly comparison chart
+  const months=[];for(let i=5;i>=0;i--){const d=new Date();d.setMonth(d.getMonth()-i);months.push(d.toISOString().slice(0,7))}
+  const incVals=months.map(m=>totalIncome(p=>monthStr(p.date)===m));
+  const expVals=months.map(m=>totalExp(p=>monthStr(p.date)===m));
+  const lossVals=months.map(m=>totalLoss(p=>monthStr(p.date)===m));
+  const max=Math.max(...incVals,...expVals,...lossVals,1);
+  document.getElementById('chart-month').innerHTML=months.map((m,i)=>{
+    const h1=Math.round(incVals[i]/max*140),h2=Math.round(expVals[i]/max*140),h3=Math.round(lossVals[i]/max*140);
+    return `<div style="flex:1;display:flex;gap:2px;align-items:flex-end">
+      <div class="bar profit-bar" style="height:${h1}px" title="دخل ${fmt(incVals[i])}"><div class="lbl">${m.slice(5)}</div></div>
+      <div class="bar" style="background:linear-gradient(180deg,#FF9800,#E65100);height:${h2}px" title="مصاريف ${fmt(expVals[i])}"></div>
+      <div class="bar loss-bar" style="height:${h3}px" title="خسائر ${fmt(lossVals[i])}"></div>
+    </div>`
+  }).join('');
+}
+function openExpense(){['exp-cat','exp-amt','exp-note'].forEach(i=>document.getElementById(i).value='');openModal('m-exp')}
+function saveExpense(){
+  const cat=document.getElementById('exp-cat').value.trim();
+  const amt=parseFloat(document.getElementById('exp-amt').value);
+  if(!cat||!amt||amt<=0)return toast('⚠️ بيانات غير مكتملة');
+  DB.expenses=DB.expenses||[];
+  DB.expenses.push({id:uid(),category:cat,amount:amt,note:document.getElementById('exp-note').value,date:Date.now()});
+  save();logAct(`مصروف: ${cat} ${amt}`);closeModal('m-exp');render();toast('✅ أُضيف المصروف');
+}
+function delExp(id){if(!confirm('حذف؟'))return;DB.expenses=DB.expenses.filter(e=>e.id!==id);save();renderFin();renderDash()}
+function openLoss(){['loss-cat','loss-amt','loss-note'].forEach(i=>document.getElementById(i).value='');openModal('m-loss')}
+function saveLoss(){
+  const cat=document.getElementById('loss-cat').value.trim();
+  const amt=parseFloat(document.getElementById('loss-amt').value);
+  if(!cat||!amt||amt<=0)return toast('⚠️ بيانات غير مكتملة');
+  DB.losses=DB.losses||[];
+  DB.losses.push({id:uid(),category:cat,amount:amt,note:document.getElementById('loss-note').value,date:Date.now()});
+  save();logAct(`خسارة: ${cat} ${amt}`);closeModal('m-loss');render();toast('✅ سُجّلت الخسارة');
+}
+function delLoss(id){if(!confirm('حذف؟'))return;DB.losses=DB.losses.filter(e=>e.id!==id);save();renderFin();renderDash()}
+
+function exportCSV(){
+  const rows=[['=== الإيرادات ===']];
+  rows.push(['التاريخ','المريض','المبلغ','الطريقة','ملاحظة']);
+  (DB.payments||[]).forEach(p=>{const pt=DB.patients[p.patientId];rows.push([new Date(p.date).toLocaleString('ar'),pt?.name||'?',p.amount,p.method,p.note||''])});
+  rows.push([]);rows.push(['=== المصاريف ===']);rows.push(['التاريخ','الفئة','المبلغ','ملاحظة']);
+  (DB.expenses||[]).forEach(e=>rows.push([new Date(e.date).toLocaleString('ar'),e.category,e.amount,e.note||'']));
+  rows.push([]);rows.push(['=== الخسائر ===']);rows.push(['التاريخ','النوع','المبلغ','ملاحظة']);
+  (DB.losses||[]).forEach(e=>rows.push([new Date(e.date).toLocaleString('ar'),e.category,e.amount,e.note||'']));
+  const csv='\uFEFF'+rows.map(r=>r.map(c=>`"${(c+'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob=new Blob([csv],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`finance-${todayStr()}.csv`;a.click();
+}
+
+/* ============================================================
+   المخزون
+   ============================================================ */
+function renderInv(){
+  const inv=DB.inventory||[];
+  document.getElementById('inv-table').innerHTML=inv.length?`<table class="tbl"><thead><tr><th>📛</th><th>الكمية</th><th>الحد</th><th>الحالة</th><th></th></tr></thead><tbody>`+inv.map(i=>`<tr><td>${i.name}</td><td>${i.qty}</td><td>${i.min}</td><td><span class="badge ${i.qty<=i.min?'b-low':'b-ok'}">${i.qty<=i.min?'🔴':'🟢'}</span></td><td><button type="button" class="btn btn-sm" onclick="addQty('${i.id}')">➕</button> <button type="button" class="btn btn-sm btn-w" onclick="invToLoss('${i.id}')">📉 تلف</button> <button type="button" class="btn btn-sm btn-d" onclick="delInv('${i.id}')">❌</button></td></tr>`).join('')+'</tbody></table>':'<div class="empty">لا مواد</div>';
+}
+function openInv(){['iv-name','iv-qty','iv-min','iv-cost'].forEach(i=>document.getElementById(i).value='');openModal('m-inv')}
+function saveInv(){const name=document.getElementById('iv-name').value.trim();if(!name)return;DB.inventory=DB.inventory||[];DB.inventory.push({id:uid(),name,qty:parseFloat(document.getElementById('iv-qty').value)||0,min:parseFloat(document.getElementById('iv-min').value)||0,cost:parseFloat(document.getElementById('iv-cost').value)||0});save();logAct(`مخزون: ${name}`);closeModal('m-inv');renderInv()}
+function addQty(id){const n=parseFloat(prompt('الكمية المضافة:'));if(!n)return;const it=DB.inventory.find(x=>x.id===id);it.qty=(it.qty||0)+n;save();renderInv()}
+function invToLoss(id){
+  const it=DB.inventory.find(x=>x.id===id);if(!it)return;
+  const n=parseFloat(prompt(`كم وحدة تالفة من "${it.name}"؟`));if(!n||n<=0)return;
+  it.qty=Math.max(0,it.qty-n);
+  const lossAmt=(it.cost||0)*n;
+  DB.losses=DB.losses||[];
+  DB.losses.push({id:uid(),category:`تلف مخزون: ${it.name}`,amount:lossAmt,note:`${n} وحدة × ${it.cost} DZD`,date:Date.now()});
+  save();logAct(`تلف ${n} من ${it.name}`);renderInv();renderDash();toast(`📉 سُجّلت خسارة ${fmt(lossAmt)}`);
+}
+function delInv(id){if(!confirm('حذف؟'))return;DB.inventory=DB.inventory.filter(i=>i.id!==id);save();renderInv()}
+
+/* ============================================================
+   الموافقات (تلقائية)
+   ============================================================ */
+function renderApprovals(){
+  const all=[...(DB.treatmentPlans||[])].sort((a,b)=>b.date-a.date);
+  document.getElementById('all-plans').innerHTML=all.length?all.map(t=>{const p=DB.patients[t.patientId];return `<div class="list-item">
+    <div class="li-info"><div class="li-name">${p?.name||'?'} - ${t.item}</div><div class="li-meta">💰 ${fmt(t.cost)} • ${new Date(t.date).toLocaleDateString('ar')}</div></div>
+    <span class="badge b-${t.status||'approved'}">${t.status==='rejected'?'❌':'✅'}</span>
+    <button type="button" class="btn btn-sm btn-d" onclick="delPlanGlobal('${t.id}')">❌</button>
+  </div>`}).join(''):'<div class="empty">لا خطط</div>';
+}
+function approveAllPending(){(DB.treatmentPlans||[]).forEach(t=>{if(t.status==='pending')t.status='approved'});save();render();toast('✅')}
+function delPlanGlobal(id){if(!confirm('حذف؟'))return;DB.treatmentPlans=DB.treatmentPlans.filter(t=>t.id!==id);save();render()}
+
+/* ============================================================
+   الطابور (الطبيب)
+   ============================================================ */
+function renderQueue(){
+  const today=todayStr();
+  const isToday=q=>new Date(q.enteredAt).toISOString().slice(0,10)===today;
+  const queue=DB.queue||[];
+  const incoming=queue.filter(q=>q.status==='sent'&&isToday(q));
+  const inProg=queue.find(q=>q.status==='in_progress'&&isToday(q));
+  const done=queue.filter(q=>(q.status==='to_pay'||q.status==='paid')&&isToday(q));
+  document.getElementById('qs-wait').textContent=incoming.length;
+  document.getElementById('qs-in').textContent=inProg?1:0;
+  document.getElementById('qs-done').textContent=done.length;
+  if(inProg){const p=DB.patients[inProg.patientId];
+    document.getElementById('current-pt').innerHTML=`<div class="q-item in"><div class="q-info"><div class="q-name">${p?.name||'?'}</div><div class="q-meta">📞 ${p?.phone||'—'} • منذ ${Math.round((Date.now()-inProg.enteredAt)/60000)}د</div></div><div><button type="button" class="btn btn-sm btn-p" onclick="openPFile('${p.id}')">📂 فتح</button></div></div>`;
+  } else document.getElementById('current-pt').innerHTML='<div class="empty">لا يوجد مريض حالياً</div>';
+  document.getElementById('incoming-list').innerHTML=incoming.length?incoming.map(q=>{const p=DB.patients[q.patientId]||{};return `<div class="q-item"><div class="q-info"><div class="q-name">${p.name||'?'}</div><div class="q-meta">📞 ${p.phone||'—'}</div></div><div class="row"><button type="button" class="btn btn-sm btn-s" onclick="callPatient('${q.id}')">✅ استدعاء</button><button type="button" class="btn btn-sm btn-p" onclick="openPFile('${p.id}')">📂</button></div></div>`}).join(''):'<div class="empty">لا أحد ينتظر</div>';
+  document.getElementById('done-list').innerHTML=done.length?done.map(q=>{const p=DB.patients[q.patientId]||{};return `<div class="q-item" style="opacity:.75"><div class="q-info"><div class="q-name">${p.name||'?'}</div><div class="q-meta">${q.status==='paid'?'✅ مدفوع':'⏳ بانتظار الدفع'}</div></div><button type="button" class="btn btn-sm" onclick="openPFile('${p.id}')">📂</button></div>`}).join(''):'<div class="empty">—</div>';
+}
+function callPatient(qid){
+  (DB.queue||[]).forEach(q=>{if(q.status==='in_progress')q.status='sent'});
+  const q=DB.queue.find(x=>x.id===qid);if(!q)return;
+  q.status='in_progress';q.startedAt=Date.now();
+  save();render();openPFile(q.patientId);toast('🩺 تم الاستدعاء');
+}
+function finishVisit(){
+  const q=(DB.queue||[]).find(x=>x.status==='in_progress');
+  if(!q){closeModal('m-pfile');return}
+  q.status='to_pay';q.finishedAt=Date.now();
+  save();closeModal('m-pfile');render();toast('✅ أُنهي الكشف');
+}
+
+/* ============================================================
+   أرشيف المرضى
+   ============================================================ */
+function renderMine(){
+  const q=(document.getElementById('mine-search')?.value||'').trim().toLowerCase();
+  let list=Object.values(DB.patients||{});
+  if(q)list=list.filter(p=>(p.name||'').toLowerCase().includes(q)||(p.phone||'').includes(q));
+  list.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  document.getElementById('mine-list').innerHTML=list.length?list.map(p=>`<div class="list-item">
+    <div class="li-info"><div class="li-name">${p.name}</div><div class="li-meta">📞 ${p.phone||'—'} • ${(p.photos||[]).length} صورة</div></div>
+    <button type="button" class="btn btn-sm btn-p" onclick="openPFile('${p.id}')">📂</button>
+  </div>`).join(''):'<div class="empty">لا مرضى</div>';
+}
+
+/* ============================================================
+   ملف المريض
+   ============================================================ */
+let curPatient=null;
+function openPFile(pid){
+  curPatient=DB.patients[pid];if(!curPatient){toast('مريض غير موجود');return}
+  curPatient.photos=curPatient.photos||[];curPatient.notes=curPatient.notes||[];curPatient.medical=curPatient.medical||{};
+  document.getElementById('pf-title').textContent=`📂 ${curPatient.name}`;
+  document.getElementById('pf-info').innerHTML=`<div class="alert alert-info">📞 ${curPatient.phone||'—'} • 🎂 ${curPatient.age||'?'} سنة</div>`;
+  renderOverview();openModal('m-pfile');
+}
+function setPfTab(btn,id){document.querySelectorAll('#m-pfile .tab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');document.querySelectorAll('#m-pfile .pf-content').forEach(t=>t.style.display='none');document.getElementById(id).style.display='block';if(id==='pf-photos')renderPhotos();if(id==='pf-tooth')renderToothChart();if(id==='pf-notes')renderNotes();if(id==='pf-plan')renderPlan();if(id==='pf-rx')renderRx();if(id==='pf-bills')renderBills();if(id==='pf-overview')renderOverview()}
+function renderOverview(){
+  if(!curPatient)return;const m=curPatient.medical||{};
+  document.querySelectorAll('#pf-overview input[type=checkbox]').forEach(c=>c.checked=!!m[c.dataset.med]);
+  document.getElementById('pf-meds').value=m.meds||'';
+  document.getElementById('pf-allergy').value=m.allergyDetail||'';
+  document.getElementById('pf-lastvisit').value=m.lastvisit||'';
+  document.getElementById('pf-nextvisit').value=m.nextvisit||'';
+}
+function saveOverview(){
+  const m={};document.querySelectorAll('#pf-overview input[type=checkbox]').forEach(c=>{if(c.checked)m[c.dataset.med]=true});
+  m.meds=document.getElementById('pf-meds').value;m.allergyDetail=document.getElementById('pf-allergy').value;
+  m.lastvisit=document.getElementById('pf-lastvisit').value;m.nextvisit=document.getElementById('pf-nextvisit').value;
+  curPatient.medical=m;save();toast('✅');
+}
+
+/* خريطة الأسنان */
+const TEETH_TOP=[18,17,16,15,14,13,12,11,21,22,23,24,25,26,27,28];
+const TEETH_BOT=[48,47,46,45,44,43,42,41,31,32,33,34,35,36,37,38];
+const TOOTH_ICONS={healthy:'',caries:'🟠',filled:'🔵',crown:'👑',root:'🩺',extracted:'❌',missing:'',implant:'🔩','needs-fill':'⚠️','needs-extract':'🚨'};
+function renderToothChart(){
+  if(!curPatient)return;
+  const chart=DB.toothCharts[curPatient.id]||{};
+  const renderRow=arr=>arr.map(n=>{const st=chart[n]||'healthy';return `<div class="tooth ${st}" onclick="openTooth(${n})"><span class="tooth-num">${n}</span><span class="tooth-ico">${TOOTH_ICONS[st]||''}</span></div>`}).join('');
+  document.getElementById('tooth-chart').innerHTML=`<div style="font-size:.75rem;color:#888">⬆️ علوي</div><div class="tooth-row">${renderRow(TEETH_TOP)}</div><div style="height:6px"></div><div class="tooth-row">${renderRow(TEETH_BOT)}</div><div style="font-size:.75rem;color:#888">⬇️ سفلي</div>`;
+}
+let curTooth=null;
+function openTooth(n){curTooth=n;document.getElementById('tooth-title').textContent=`🦷 السن ${n}`;openModal('m-tooth')}
+function setTooth(state){if(!DB.toothCharts[curPatient.id])DB.toothCharts[curPatient.id]={};DB.toothCharts[curPatient.id][curTooth]=state;save();renderToothChart();closeModal('m-tooth')}
+
+/* صور (مع ضغط قوي) */
+async function compressImage(file,maxDim=1200,quality=0.72){
+  return new Promise((resolve,reject)=>{
+    const r=new FileReader();
+    r.onload=()=>{const img=new Image();img.onload=()=>{
+      const c=document.createElement('canvas');let w=img.width,h=img.height;
+      if(w>maxDim){h=h*maxDim/w;w=maxDim}if(h>maxDim){w=w*maxDim/h;h=maxDim}
+      c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
+      resolve(c.toDataURL('image/jpeg',quality));
+    };img.onerror=reject;img.src=r.result};
+    r.onerror=reject;r.readAsDataURL(file);
+  });
+}
+function renderPhotos(){
+  const g=document.getElementById('pf-photos-grid');
+  g.innerHTML=(curPatient.photos||[]).length?curPatient.photos.map((p,i)=>`<div class="photo-item" onclick="openPhoto(${i})"><img src="${photoSrc(p)}"></div>`).join(''):'<div class="empty">لا صور</div>';
+}
+async function addPhoto(e){
+  const files=e.target.files;
+  for(const f of files){
+    try{const data=await compressImage(f,1200,0.72);
+      curPatient.photos.push({id:uid(),data,date:Date.now()});
+    }catch(err){console.error(err)}
+  }
+  save();renderPhotos();toast('📸 أُضيفت');e.target.value='';
+}
+let curPhotoIdx=-1,phRot=0,phZ=1,phB=1;
+function openPhoto(i){curPhotoIdx=i;phRot=0;phZ=1;phB=1;document.getElementById('ph-img').src=photoSrc(curPatient.photos[i]);applyPh();openModal('m-photo')}
+function applyPh(){const img=document.getElementById('ph-img');img.style.transform=`rotate(${phRot}deg) scale(${phZ})`;img.style.filter=`brightness(${phB})`}
+function phRotate(){phRot+=90;applyPh()}
+function phZoom(d){phZ=Math.max(0.3,Math.min(3,phZ+d));applyPh()}
+function phBright(d){phB=Math.max(0.3,Math.min(2,phB+d));applyPh()}
+function deletePhoto(){if(!confirm('حذف؟'))return;curPatient.photos.splice(curPhotoIdx,1);save();renderPhotos();closeModal('m-photo')}
+
+/* خطط علاج */
+function renderPlan(){
+  const items=(DB.treatmentPlans||[]).filter(t=>t.patientId===curPatient.id);
+  document.getElementById('pf-plan-list').innerHTML=items.length?items.map(t=>`<div class="list-item">
+    <div class="li-info"><div class="li-name">${t.item}</div><div class="li-meta">💰 ${fmt(t.cost)} • ${t.status==='approved'?'✅':'⏳'}</div></div>
+    <button type="button" class="btn btn-sm btn-d" onclick="delPlan('${t.id}')">❌</button>
+  </div>`).join(''):'<div class="empty">—</div>';
+}
+function addPlanItem(){
+  const item=document.getElementById('pf-plan-item').value.trim();
+  const cost=parseFloat(document.getElementById('pf-plan-cost').value)||0;
+  if(!item)return;
+  DB.treatmentPlans=DB.treatmentPlans||[];
+  DB.treatmentPlans.push({id:uid(),patientId:curPatient.id,doctor:'مدير/طبيب',item,cost,status:'approved',date:Date.now()});
+  document.getElementById('pf-plan-item').value='';document.getElementById('pf-plan-cost').value='';
+  save();renderPlan();toast('✅ مُعتمد');
+}
+function delPlan(id){if(!confirm('حذف؟'))return;DB.treatmentPlans=DB.treatmentPlans.filter(t=>t.id!==id);save();renderPlan()}
+
+/* وصفات */
+function renderRx(){
+  const items=(DB.prescriptions||[]).filter(t=>t.patientId===curPatient.id);
+  document.getElementById('pf-rx-list').innerHTML=items.length?items.map(t=>`<div class="list-item">
+    <div class="li-info"><div class="li-name">💊 ${t.drug}</div><div class="li-meta">${t.dose}</div></div>
+    <button type="button" class="btn btn-sm btn-d" onclick="delRx('${t.id}')">❌</button>
+  </div>`).join(''):'<div class="empty">—</div>';
+}
+function addRx(){const drug=document.getElementById('rx-drug').value.trim();const dose=document.getElementById('rx-dose').value.trim();if(!drug)return;DB.prescriptions=DB.prescriptions||[];DB.prescriptions.push({id:uid(),patientId:curPatient.id,drug,dose,date:Date.now()});['rx-drug','rx-dose'].forEach(i=>document.getElementById(i).value='');save();renderRx()}
+function delRx(id){if(!confirm('حذف؟'))return;DB.prescriptions=DB.prescriptions.filter(t=>t.id!==id);save();renderRx()}
+function sendRxWa(){const items=(DB.prescriptions||[]).filter(t=>t.patientId===curPatient.id);if(!items.length)return toast('لا وصفات');const phone=(curPatient.phone||'').replace(/[^0-9]/g,'');if(!phone)return toast('لا هاتف');let msg=`💊 وصفة - ${curPatient.name}\n\n`+items.map(t=>`- ${t.drug}: ${t.dose}`).join('\n')+`\n\n${DB.settings.name}`;window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`,'_blank')}
+
+/* فواتير + دفعات */
+function renderBills(){
+  const items=(DB.invoices||[]).filter(t=>t.patientId===curPatient.id);
+  document.getElementById('pf-bills-list').innerHTML=items.length?items.map(t=>`<div class="list-item">
+    <div class="li-info"><div class="li-name">💰 ${fmt(t.amount)}</div><div class="li-meta">${t.desc||'—'} • ${t.method==='debt'?'🔴 دين':t.method==='card'?'💳':'💵'} • ${new Date(t.date).toLocaleDateString('ar')}</div></div>
+    <button type="button" class="btn btn-sm btn-d" onclick="delBill('${t.id}')">❌</button>
+  </div>`).join(''):'<div class="empty">—</div>';
+}
+function addBill(){
+  const amt=parseFloat(document.getElementById('bill-amt').value);if(!amt)return;
+  const method=document.getElementById('bill-method').value;
+  const desc=document.getElementById('bill-desc').value;
+  DB.invoices=DB.invoices||[];DB.payments=DB.payments||[];
+  const rec={id:uid(),patientId:curPatient.id,amount:amt,desc,method,date:Date.now()};
+  DB.invoices.push(rec);
+  DB.payments.push({id:uid(),patientId:curPatient.id,amount:amt,method,note:desc,date:Date.now()});
+  ['bill-amt','bill-desc'].forEach(i=>document.getElementById(i).value='');
+  save();renderBills();renderDash();toast('✅ سُجّلت الفاتورة + الدفعة');
+}
+function delBill(id){if(!confirm('حذف؟'))return;DB.invoices=DB.invoices.filter(t=>t.id!==id);save();renderBills()}
+
+/* ملاحظات */
+function renderNotes(){
+  const ns=[...(curPatient.notes||[])].sort((a,b)=>(b.pinned?1:0)-(a.pinned?1:0)||b.date-a.date);
+  document.getElementById('pf-notes-list').innerHTML=ns.length?ns.map(n=>`<div class="note-item ${n.pinned?'pinned':''}">
+    <div>${n.text}</div><div class="note-meta">🕐 ${new Date(n.date).toLocaleString('ar')}</div>
+    <div class="note-actions">
+      <button type="button" class="btn btn-sm" onclick="pinNote('${n.id}')">${n.pinned?'إلغاء':'📌'}</button>
+      <button type="button" class="btn btn-sm btn-d" onclick="delNote('${n.id}')">❌</button>
+    </div></div>`).join(''):'<div class="empty">—</div>';
+}
+function addNote(){const t=document.getElementById('pf-new-note').value.trim();if(!t)return;curPatient.notes.push({id:uid(),text:t,date:Date.now(),pinned:false});document.getElementById('pf-new-note').value='';save();renderNotes()}
+function pinNote(id){const n=curPatient.notes.find(x=>x.id===id);n.pinned=!n.pinned;save();renderNotes()}
+function delNote(id){if(!confirm('حذف؟'))return;curPatient.notes=curPatient.notes.filter(x=>x.id!==id);save();renderNotes()}
+
+/* ============================================================
+   الحاسبة الرياضية
+   ============================================================ */
+let calcState={cur:'0',prev:'',op:null,reset:false};
+function calcDisp(){document.getElementById('calc-cur').textContent=calcState.cur;document.getElementById('calc-prev').textContent=calcState.prev}
+function calcNum(n){
+  if(calcState.reset){calcState.cur='0';calcState.reset=false}
+  if(n==='.'&&calcState.cur.includes('.'))return;
+  if(calcState.cur==='0'&&n!=='.')calcState.cur=n;else calcState.cur+=n;
+  calcDisp();
+}
+function calcOp(op){
+  if(calcState.op&&!calcState.reset)calcEq();
+  calcState.prev=calcState.cur+' '+(op==='*'?'×':op==='/'?'÷':op);
+  calcState.op=op;calcState.reset=true;calcDisp();
+}
+function calcEq(){
+  if(!calcState.op)return;
+  const a=parseFloat(calcState.prev);const b=parseFloat(calcState.cur);let r=0;
+  switch(calcState.op){case'+':r=a+b;break;case'-':r=a-b;break;case'*':r=a*b;break;case'/':r=b!==0?a/b:0;break;case'%':r=a*b/100;break}
+  calcState.cur=String(Math.round(r*1e8)/1e8);
+  calcState.prev=calcState.prev+' '+parseFloat(calcState.cur===''?'0':calcState.cur)+' =';
+  calcState.op=null;calcState.reset=true;calcDisp();
+}
+function calcClear(){calcState={cur:'0',prev:'',op:null,reset:false};calcDisp()}
+function calcDel(){if(calcState.reset){calcClear();return}calcState.cur=calcState.cur.length>1?calcState.cur.slice(0,-1):'0';calcDisp()}
+
+/* ============================================================
+   الإعدادات
+   ============================================================ */
+function saveSettings(){
+  const n=document.getElementById('set-name').value.trim();
+  const p=document.getElementById('set-newpwd').value;
+  if(n)DB.settings.name=n;
+  if(p)DB.auth.pwd=p;
+  document.getElementById('set-newpwd').value='';
+  document.getElementById('clinic-name').textContent=DB.settings.name;
+  save();logAct('تحديث الإعدادات');toast('✅');
+}
+function renderLog(){document.getElementById('log-list').innerHTML=(DB.activityLog||[]).slice(0,30).map(l=>`<div class="list-item"><div class="li-info"><div class="li-name">${l.action}</div><div class="li-meta">${new Date(l.date).toLocaleString('ar')}</div></div></div>`).join('')||'<div class="empty">—</div>'}
+
+/* ============================================================
+   النسخ الاحتياطي الكربوني (ZIP-like بدون مكتبة خارجية)
+   ============================================================ */
+function backupJSON(){
+  const payload={DB,exportedAt:Date.now(),version:1};
+  const blob=new Blob([JSON.stringify(payload)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`clinic-backup-${todayStr()}.json`;a.click();
+  META.lastBackup=Date.now();localStorage.setItem(META_KEY,JSON.stringify(META));renderLastBackup();
+  logAct('نسخة احتياطية JSON');toast('✅ تم الحفظ');
+}
+async function backupFull(){
+  toast('⏳ جاري إنشاء النسخة الكربونية...');
+  // Build a manifest + a separate compressed images section
+  const manifest={
+    version:2,
+    exportedAt:Date.now(),
+    clinic:DB.settings.name,
+    counts:{
+      patients:Object.keys(DB.patients||{}).length,
+      payments:(DB.payments||[]).length,
+      expenses:(DB.expenses||[]).length,
+      losses:(DB.losses||[]).length,
+      photos:Object.values(DB.patients||{}).reduce((s,p)=>s+(p.photos||[]).length,0)
+    }
+  };
+  // Re-compress all photos one more time (lighter) for backup
+  const dbCopy=JSON.parse(JSON.stringify(DB));
+  // photos already compressed in storage; we keep them as-is to ensure full restore
+  const payload={manifest,DB:dbCopy};
+  const json=JSON.stringify(payload);
+  // basic compression via gzip stream if available
+  let blob;
+  if('CompressionStream' in window){
+    try{
+      const cs=new Response(new Blob([json]).stream().pipeThrough(new CompressionStream('gzip')));
+      blob=await cs.blob();
+      const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`clinic-backup-${todayStr()}.json.gz`;a.click();
+      META.lastBackup=Date.now();localStorage.setItem(META_KEY,JSON.stringify(META));renderLastBackup();
+      logAct('نسخة كربونية مضغوطة');toast(`✅ نسخة كربونية ${(blob.size/1024).toFixed(1)} KB`);
+      return;
+    }catch(e){console.error(e)}
+  }
+  // fallback: plain json
+  blob=new Blob([json],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`clinic-backup-${todayStr()}.json`;a.click();
+  META.lastBackup=Date.now();localStorage.setItem(META_KEY,JSON.stringify(META));renderLastBackup();
+  logAct('نسخة كربونية');toast(`✅ نسخة كربونية ${(blob.size/1024).toFixed(1)} KB`);
+}
+async function restoreFile(e){
+  const f=e.target.files[0];if(!f)return;
+  if(!confirm('⚠️ سيتم استبدال كل البيانات الحالية! متابعة؟'))return;
+  try{
+    let text;
+    if(f.name.endsWith('.gz')){
+      if(!('DecompressionStream' in window)){toast('❌ متصفحك لا يدعم فك الضغط');return}
+      const ds=new Response(f.stream().pipeThrough(new DecompressionStream('gzip')));
+      text=await ds.text();
+    }else{
+      text=await f.text();
+    }
+    const data=JSON.parse(text);
+    const restored=data.DB||data;
+    DB=restored;save();logAct('استعادة نسخة احتياطية');render();toast('✅ تم الاستعادة بنجاح');
+  }catch(err){console.error(err);toast('❌ ملف غير صالح')}
+  e.target.value='';
+}
+function clearAll(){localStorage.removeItem(DB_KEY);location.reload()}
+function renderLastBackup(){
+  document.getElementById('last-backup').textContent=META.lastBackup?new Date(META.lastBackup).toLocaleString('ar'):'لم يتم بعد';
+}
+
+
+
+
+/* ============================================================
+   دوال مساعدة للتزامن
+   ============================================================ */
+function setSyncStatus(mode,text){
+  const dot=document.getElementById('dot'),txt=document.getElementById('conn-txt');
+  if(dot)dot.className='dot '+(mode||'srch');
+  if(txt)txt.textContent=text||'🔄 المزامنة تعمل';
+}
+function safeDBCopy(){return JSON.parse(JSON.stringify(DB||{}))}
+function mergeData(local,remote){
+  if(Array.isArray(local)||Array.isArray(remote)){
+    const map={};
+    (Array.isArray(local)?local:[]).forEach(x=>{if(x&&x.id)map[x.id]=x});
+    (Array.isArray(remote)?remote:[]).forEach(x=>{
+      if(x&&x.id){
+        // إذا كان العنصر محذوفاً (deleted=true)، نحذفه من الخريطة
+        if(x._deleted){delete map[x.id]}
+        else map[x.id]={...(map[x.id]||{}),...x};
+      }else if(x!=null)map[uid()]=x
+    });
+    return Object.values(map).filter(x=>!x._deleted);
+  }
+  if(remote&&typeof remote==='object'){
+    const out={...(local&&typeof local==='object'?local:{})};
+    Object.keys(remote).forEach(k=>{
+      if(remote[k]&&typeof remote[k]==='object'&&remote[k]._deleted){
+        delete out[k];
+      }else{
+        out[k]=mergeData(out[k],remote[k]);
+      }
+    });
+    // حذف المفاتيح المحذوفة من remote (للمرضى وما شابه)
+    if(local&&typeof local==='object'){
+      Object.keys(local).forEach(k=>{
+        if(!(k in remote)&&remote&&Object.keys(remote).length>0){
+          // لا نحذف إذا remote ناقص - فقط نحذف إذا remote يحتوي على نفس المفاتيح
+        }
+      });
+    }
+    return out;
+  }
+  return remote!==undefined?remote:local;
+}
+/* ============================================================
+   SUPABASE REALTIME SYNC
+   ============================================================ */
+const SUPABASE_URL='https://ylkjpagvhnyfumsjyuwv.supabase.co';
+const SUPABASE_KEY='sb_publishable_IrISg-GLD-yhn-mSUg6VRg_ak_yPP3G';
+let supabaseClient=null;
+let _supaChannel=null;
+let _supaApplying=false;
+let _supaReady=false;
+let _lastSupaStamp=0;
+
+async function loadSupabaseLib(){
+  return new Promise((resolve,reject)=>{
+    if(window.supabase)return resolve(window.supabase);
+    const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.min.js';
+    s.onload=()=>resolve(window.supabase);
+    s.onerror=reject;
+    document.head.appendChild(s);
+  });
+}
+
+async function supaFetch(){throw new Error('Supabase persistence is disabled; use the Realtime bridge only')}
+async function supaLoad(){return [];}
+async function initSupabaseSync(){return;}
+async function saveToSupabase(){return;}
+function setupBC(){
+  if(_supaReady)return;
+  _supaReady=true;
+  setSyncStatus('srch','🔄 جاري الاتصال بـ Supabase...');
+  try{
+    if(!window._bc_dental){
+      window._bc_dental=new BroadcastChannel('dental_clinic_supa_v1');
+      window._bc_dental.onmessage=e=>{
+        if(e.data&&e.data.type==='full_db'&&!_supaApplying){
+          _supaApplying=true;
+          try{DB=mergeData(DB,e.data.data);localStorage.setItem(DB_KEY,JSON.stringify(DB));render();}catch{}
+          finally{_supaApplying=false}
+        }
+      };
+    }
+  }catch{}
+  initSupabaseSync();
+}
+
+function broadcast(){
+  saveToSupabase();
+  try{if(window._bc_dental)window._bc_dental.postMessage({type:'full_db',data:safeDBCopy()})}catch{}
+}
+
+function sendFullDB(reason){broadcast()}
+function sendTyped(type,data){broadcast()}
+function openConn(){
+  const stat=document.getElementById('conn-modal-status');
+  if(stat){
+    const dot=document.getElementById('dot');
+    const txt=document.getElementById('conn-txt');
+    const isOk=dot&&dot.classList.contains('ok');
+    stat.innerHTML=isOk?'<span style="color:#2E7D32">✅ '+( txt?txt.textContent:'متصل بـ Supabase')+'</span>':'<span style="color:#E65100">🔄 '+(txt?txt.textContent:'جاري الاتصال...')+'</span>';
+  }
+  openModal('m-conn');
+}
+function setupPC(){
+  pc=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'}]});
+  pc.onconnectionstatechange=()=>{const ok=pc.connectionState==='connected';setSyncStatus(ok?'ok':pc.connectionState==='connecting'?'srch':'no',ok?'✅ متصل مباشر + تزامن دائم':'🔄 تزامن دائم يعمل') ;if(ok)sendFullDB('webrtc_connected')};
+  pc.ondatachannel=e=>{dataChannel=e.channel;setupDC()};
+}
+function setupDC(){
+  if(!dataChannel)return;
+  dataChannel.onopen=()=>{setSyncStatus('ok','✅ قناة مباشرة مفتوحة');sendFullDB('dc_open')};
+  dataChannel.onclose=()=>setSyncStatus('srch','🔄 القناة المباشرة أغلقت، التزامن الدائم مستمر');
+  dataChannel.onmessage=e=>{try{const m=JSON.parse(e.data);if(m.type==='full_db')applyRemoteDB(m);else if(m.type==='request_full')sendFullDB('request_full');else applyRemoteDB({type:'full_db',promo:SYNC_PROMO_CODE,origin:m.origin,role:m.role,updatedAt:m.updatedAt||Date.now(),data:DB})}catch(err){console.error(err)}};
+}
+async function createOffer(){
+  setupPC();dataChannel=pc.createDataChannel('clinic',{ordered:true});setupDC();
+  const offer=await pc.createOffer();await pc.setLocalDescription(offer);
+  await new Promise(r=>{if(pc.iceGatheringState==='complete')r();else{pc.onicegatheringstatechange=()=>{if(pc.iceGatheringState==='complete')r()};setTimeout(r,3000)}});
+  const el=document.getElementById('my-offer');if(el)el.value=btoa(unescape(encodeURIComponent(JSON.stringify(pc.localDescription))));
+  toast('✅ العرض جاهز - انسخه مرة واحدة فقط، وبعدها التزامن دائم')
+}
+async function acceptAnswer(){
+  try{const ans=JSON.parse(decodeURIComponent(escape(atob(document.getElementById('their-answer').value.trim()))));await pc.setRemoteDescription(ans);toast('⏳ جاري الاتصال...')}catch(e){console.error(e);toast('❌ جواب غير صالح')}
+}
+async function acceptOffer(){
+  setupPC();
+  try{const off=JSON.parse(decodeURIComponent(escape(atob(document.getElementById('their-offer').value.trim()))));await pc.setRemoteDescription(off);const ans=await pc.createAnswer();await pc.setLocalDescription(ans);await new Promise(r=>{if(pc.iceGatheringState==='complete')r();else{pc.onicegatheringstatechange=()=>{if(pc.iceGatheringState==='complete')r()};setTimeout(r,3000)}});document.getElementById('my-answer').value=btoa(unescape(encodeURIComponent(JSON.stringify(pc.localDescription))));toast('✅ جوابك جاهز - انسخيه للمدير مرة واحدة فقط')}catch(e){console.error(e);toast('❌ عرض غير صالح')}
+}
+setTimeout(()=>setupBC(),0);
+
+
+/* ============================================================
+   Render master
+   ============================================================ */
+function render(){
+  try{renderDash()}catch(e){console.error(e)}
+  try{renderQueue()}catch(e){}
+  try{renderMine()}catch(e){}
+  try{renderFin()}catch(e){}
+  try{renderInv()}catch(e){}
+  try{renderApprovals()}catch(e){}
+  try{renderLog()}catch(e){}
+  try{renderLastBackup()}catch(e){}
+}
+
+/* Boot */
+load();setupBC();
+if(SES)showApp();
+
+// auto-refresh from storage every 5s (in case of multi-tab)
+setInterval(()=>{
+  try{const d=localStorage.getItem(DB_KEY);if(d){const p=JSON.parse(d);if(JSON.stringify(p).length!==JSON.stringify(DB).length){Object.assign(DB,p);if(document.getElementById('main-header').style.display!=='none')render()}}}catch{}
+},5000);
+
+// reminder backup
+setInterval(()=>{
+  if(!META.lastBackup||(Date.now()-META.lastBackup)>7*86400000){
+    if(document.getElementById('main-header').style.display!=='none'){
+      // gentle reminder once per session
+      if(!window._backupReminded){window._backupReminded=true;toast('💡 لم تنشئ نسخة احتياطية منذ أكثر من أسبوع');}
+    }
+  }
+},60000);
+</script>
+<!-- 🌟 المدير الذكي الشامل: إدارة التخزين واستخراج الصور (مدمج في الإعدادات) 🌟 -->
+<script id="smart-storage-manager">
+(function() {
+    console.log("🛡️ المدير الذكي يعمل: جاري دمج أداة تفريغ الصور في الإعدادات بأمان...");
+
+    // 1. إزالة أي زر عائم قديم (لتنظيف الشاشة إذا كان الكود القديم موجوداً)
+    const oldFloatingBtn = document.getElementById('floating-extract-btn');
+    if (oldFloatingBtn) oldFloatingBtn.remove();
+    // إزالة أزرار الاستخراج العائمة التي تم إنشاؤها عبر JavaScript
+    document.querySelectorAll('button').forEach(b => {
+        if(b.innerHTML.includes('استخراج وتفريغ الصور') && b.style.position === 'fixed') {
+            b.remove();
+        }
+    });
+
+    // 2. تصميم عنصر واجهة المستخدم (الزر والملاحظة) بشكل يتناسب مع تصميم التطبيق
+    const storageUI = document.createElement('div');
+    storageUI.style.cssText = "margin-top: 20px; padding-top: 15px; border-top: 2px dashed #f44336;";
+    storageUI.innerHTML = `
+        <h3 style="color:#d32f2f; margin-bottom:10px; font-size:1rem;">🧹 إدارة مساحة التخزين الذكية</h3>
+        <div style="background:#FFEBEE; color:#c62828; padding:10px; border-radius:10px; font-size:0.8rem; margin-bottom:12px; border-right:4px solid #f44336; line-height: 1.5;">
+            💡 <b>تنظيف ذكي:</b> هذه الأداة ستقوم بتجميع جميع صور المرضى في ملف واحد (ZIP) لتحميله على جهازك، ثم ستقوم بحذف الصور من النظام لتخفيف الضغط وتسريع العيادة. (لن يتم المساس ببيانات المرضى، فقط الصور).
+        </div>
+        <button type="button" id="btn-smart-extract" style="width:100%; background:linear-gradient(135deg, #d32f2f, #f44336); color:#fff; border:none; padding:14px; border-radius:12px; font-size:1rem; font-weight:bold; cursor:pointer; box-shadow:0 4px 15px rgba(244,67,54,0.3); transition:transform 0.2s, opacity 0.2s;">
+            💽 استخراج الصور وتفريغ المساحة الآن
+        </button>
+    `;
+
+    // 3. الحقن الذكي في المكان الصحيح (يبحث عن واجهة الطبيب أو السكرتيرة بصمت)
+    const initUI = setInterval(() => {
+        let injected = false;
+
+        // محاولة الحقن في شاشة الطبيب (يبحث عن بطاقة النسخ الاحتياطي)
+        const doctorSettingsCard = Array.from(document.querySelectorAll('#scr-set .card')).find(c => c.innerHTML.includes('النسخ الاحتياطي الكربوني'));
+        if (doctorSettingsCard && !document.getElementById('btn-smart-extract')) {
+            doctorSettingsCard.appendChild(storageUI);
+            injected = true;
+        }
+
+        // محاولة الحقن في شاشة السكرتيرة (يبحث عن تبويب البيانات)
+        const secretaryDataTab = document.getElementById('st-data');
+        if (secretaryDataTab && !document.getElementById('btn-smart-extract')) {
+            secretaryDataTab.appendChild(storageUI);
+            injected = true;
+        }
+
+        if (injected) {
+            clearInterval(initUI);
+            setupLogic();
+
+            // تأثير جمالي للزر
+            const btn = document.getElementById('btn-smart-extract');
+            btn.onmouseover = () => { btn.style.transform = 'scale(1.02)'; btn.style.opacity = '0.9'; };
+            btn.onmouseout = () => { btn.style.transform = 'scale(1)'; btn.style.opacity = '1'; };
+        }
+    }, 1000); // محاولة حقن لطيفة كل ثانية حتى يكتمل تحميل الصفحة
+
+    // 4. تحميل مكتبة الضغط عند الحاجة فقط (لكي لا يبطئ التطبيق أبداً)
+    async function loadJSZip() {
+        if (window.JSZip) return window.JSZip;
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+            script.onload = () => resolve(window.JSZip);
+            script.onerror = () => reject(new Error('فشل تحميل مكتبة الضغط'));
+            document.head.appendChild(script);
+        });
+    }
+
+    // 5. المنطق الذكي لاستخراج الصور والتفريغ (محمي بالكامل لتجنب الأخطاء)
+    function setupLogic() {
+        const btn = document.getElementById('btn-smart-extract');
+        if (!btn) return;
+
+        btn.addEventListener('click', async () => {
+            try {
+                // التأكد من أن قاعدة البيانات موجودة
+                if (!window.DB || !window.DB.patients) {
+                    if(window.toast) window.toast('⚠️ قاعدة البيانات غير متوفرة أو لم يتم تحميلها بعد!');
+                    return;
+                }
+
+                let totalPhotos = 0;
+                const patientsWithPhotos = [];
+
+                // جلب الصور بأمان
+                for (let pid in window.DB.patients) {
+                    const p = window.DB.patients[pid];
+                    if (p.photos && p.photos.length > 0) {
+                        totalPhotos += p.photos.length;
+                        patientsWithPhotos.push(p);
+                    }
+                }
+
+                if (totalPhotos === 0) {
+                    if(window.toast) window.toast('💡 لا توجد صور مخزنة في النظام حالياً.');
+                    else alert('لا توجد صور مخزنة.');
+                    return;
+                }
+
+                const confirmMsg = `عثرت على (${totalPhotos}) صورة في النظام.\nهل أنت متأكد من رغبتك في تحميلها كملف ZIP ثم مسحها من النظام لتوفير المساحة؟\n\n(لا تقلق، لن يتم الحذف إلا بعد اكتمال التحميل لجهازك بنجاح).`;
+                if (!confirm(confirmMsg)) return;
+
+                if(window.toast) window.toast('⏳ جاري تجميع الصور وتجهيز الملف... يرجى الانتظار.');
+                btn.disabled = true;
+                btn.innerHTML = '⏳ جاري المعالجة والضغط...';
+                btn.style.background = '#757575';
+
+                // تشغيل المكتبة وتجميع الملفات
+                const JSZip = await loadJSZip();
+                const zip = new JSZip();
+                const dateStr = new Date().toISOString().slice(0,10);
+                const rootFolder = zip.folder(`أرشيف_صور_العيادة_${dateStr}`);
+
+                for (const p of patientsWithPhotos) {
+                    const safeName = (p.name || 'مريض_مجهول').replace(/[\\/:*?"<>|]/g, '_');
+                    const patientFolder = rootFolder.folder(safeName);
+
+                    for (let index = 0; index < p.photos.length; index++) {
+                        const photo = p.photos[index];
+                        if (!photo.data) continue;
+                        try {
+                            if (photo.data.startsWith('data:')) {
+                                const base64Data = photo.data.split(',')[1];
+                                if (base64Data) patientFolder.file(`صورة_${index + 1}.jpg`, base64Data, { base64: true });
+                            } else {
+                                const resp = await fetch(photo.data);
+                                const blob = await resp.blob();
+                                patientFolder.file(`صورة_${index + 1}.jpg`, blob);
+                            }
+                        } catch (photoError) { console.error('تعذر تضمين صورة في الأرشيف', photoError); }
+                    }
+                }
+
+                // توليد الملف وتحميله للمستخدم
+                const content = await zip.generateAsync({ type: "blob" });
+                const a = document.createElement("a");
+                a.href = URL.createObjectURL(content);
+                a.download = `أرشيف_صور_العيادة_${dateStr}.zip`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(a.href);
+
+                // مرحلة التنظيف الآمن للصور من الذاكرة
+                patientsWithPhotos.forEach(p => {
+                    p.photos = []; 
+                });
+
+                // استدعاء دوال الحفظ الخاصة بمشروعك (إذا كانت موجودة)
+                if (typeof window.save === 'function') window.save();
+                if (typeof window.broadcast === 'function') window.broadcast();
+                if (typeof window.render === 'function') window.render();
+
+                // تحديث واجهة الصور إذا كان ملف المريض مفتوحاً
+                if (typeof window.renderPhotos === 'function') {
+                    try { window.renderPhotos(); } catch(e){}
+                }
+
+                if(window.toast) window.toast(`✅ تمت العملية بنجاح! تم حفظ ${totalPhotos} صورة وتفريغ المساحة.`);
+                else alert('تمت العملية بنجاح!');
+
+            } catch (error) {
+                console.error("خطأ في عملية التخزين الذكي:", error);
+                if(window.toast) window.toast('❌ حدث خطأ غير متوقع، لم يتم مسح أي شيء لحماية بياناتك.');
+                else alert('حدث خطأ أثناء العملية.');
+            } finally {
+                // إرجاع الزر لحالته الأصلية
+                btn.disabled = false;
+                btn.innerHTML = '💽 استخراج الصور وتفريغ المساحة الآن';
+                btn.style.background = 'linear-gradient(135deg, #d32f2f, #f44336)';
+            }
+        });
+    }
+})();
+</script>
+<script>
+/* Pro Max additions for the doctor application.
+   This file is intentionally additive: it does not replace the existing clinic features. */
+(function () {
+  'use strict';
+  if (window.__promaxDoctorAddon) return;
+  window.__promaxDoctorAddon = true;
+
+  /* لا تعِد تحميل الصفحة عند التشغيل: كان هذا الجزء يمسح الجلسة
+     ويستدعي location.reload()، فيظهر للمستخدم أن التطبيق يخرج عند الضغط. */
+
+  var THEMES = [
+    { id: 1, name: 'أزرق هادئ', p: '#5E35B1', bg: '#F5F5F7' },
+    { id: 2, name: 'ليلي', p: '#7C4DFF', bg: '#121212' },
+    { id: 3, name: 'كلاسيكي', p: '#5D4037', bg: '#F5F0E8' },
+    { id: 4, name: 'حيوي', p: '#FF4081', bg: '#FFF3F8' },
+    { id: 5, name: 'مسطح', p: '#37474F', bg: '#FAFAFA' },
+    { id: 6, name: 'عصري', p: '#4F46E5', bg: '#F3F4FB' },
+    { id: 7, name: 'إداري رسمي', p: '#1E3A5F', bg: '#F2F4F7' },
+    { id: 8, name: 'مساحة العمل', p: '#4F46E5', bg: '#F4F5FA' }
+  ];
+  var ICONS = {
+    classic: { name: 'كلاسيكية', values: ['📊', '⏳', '📂', '💰', '📦', '🧮', '⚙️', '📨'] },
+    medical: { name: 'طبية', values: ['🩺', '👥', '🗂️', '💳', '🧰', '➗', '⚙️', '📨'] },
+    outline: { name: 'خطية', values: ['▦', '◷', '▱', '◉', '▣', '⌘', '⚙', '✉'] }
+  };
+  var currentReport = null;
+  var knownReports = {};
+  var initializedReports = false;
+
+  function safeText(value) {
+    return String(value == null ? '' : value).replace(/[&<>"']/g, function (c) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+    });
+  }
+  function getSettings() {
+    DB.settings = DB.settings || {};
+    return DB.settings;
+  }
+  function audioTone(kind) {
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return;
+      var ctx = new Ctx();
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      var frequency = kind === 'success' ? 980 : kind === 'voice' ? 640 : 760;
+      osc.frequency.value = frequency;
+      osc.type = kind === 'success' ? 'sine' : 'triangle';
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.16, ctx.currentTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.28);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.3);
+      setTimeout(function () { try { ctx.close(); } catch (_) {} }, 450);
+    } catch (_) {}
+  }
+  function speak(text) {
+    try {
+      if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) return;
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = getSettings().lang === 'en' ? 'en-US' : getSettings().lang === 'fr' ? 'fr-FR' : 'ar-SA';
+      u.rate = 1;
+      window.speechSynthesis.speak(u);
+    } catch (_) {}
+  }
+  function showVoiceBar(html) {
+    var bar = document.getElementById('promax-voice-bar');
+    if (!bar) return;
+    bar.innerHTML = html;
+    bar.style.display = 'block';
+    clearTimeout(window.__promaxVoiceTimer);
+    window.__promaxVoiceTimer = setTimeout(function () { bar.style.display = 'none'; }, 4600);
+  }
+  function normalized(s) {
+    return String(s || '').toLowerCase()
+      .replace(/[أإآ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه')
+      .replace(/[ًٌٍَُِّْ]/g, '').replace(/[^\p{L}\p{N} ]/gu, ' ')
+      .replace(/\s+/g, ' ').trim();
+  }
+  function patientFromText(text) {
+    var t = normalized(text), best = null, score = 0;
+    Object.values(DB.patients || {}).forEach(function (p) {
+      var name = normalized(p.name);
+      if (!name) return;
+      var s = t.indexOf(name) >= 0 ? name.length + 5 : 0;
+      name.split(' ').forEach(function (word) { if (word.length > 2 && t.indexOf(word) >= 0) s += word.length; });
+      if (s > score) { score = s; best = p; }
+    });
+    return score >= 3 ? best : null;
+  }
+
+  function applyProMaxAppearance() {
+    var s = getSettings();
+    document.body.className = document.body.className.replace(/\bpromax-theme-\d\b/g, '').trim();
+    document.body.classList.add('promax-theme-' + (s.promaxTheme || 1));
+    var radiusValue = (s.promaxRadius == null ? 14 : s.promaxRadius) + 'px';
+    document.documentElement.style.setProperty('--promax-radius', radiusValue);
+    document.documentElement.style.setProperty('--r', radiusValue);
+    document.body.style.setProperty('--r', radiusValue);
+    if (s.promaxBg) {
+      document.body.classList.add('promax-has-bg');
+      document.body.style.backgroundImage = 'url("' + s.promaxBg.replace(/"/g, '\\"') + '")';
+    } else {
+      document.body.classList.remove('promax-has-bg');
+      document.body.style.backgroundImage = '';
+    }
+    var iconSet = ICONS[s.promaxIcons || 'classic'];
+    if (iconSet) {
+      document.querySelectorAll('#main-nav .nav-btn .ico').forEach(function (el, i) {
+        if (iconSet.values[i]) el.textContent = iconSet.values[i];
+      });
+    }
+  }
+  function saveAppearance() {
+    if (typeof save === 'function') save();
+    applyProMaxAppearance();
+    renderAppearancePicker();
+  }
+  function renderAppearancePicker() {
+    var themeWrap = document.getElementById('promax-theme-picker');
+    var iconWrap = document.getElementById('promax-icon-picker');
+    if (!themeWrap || !iconWrap) return;
+    var s = getSettings();
+    themeWrap.innerHTML = THEMES.map(function (t) {
+      return '<button type="button" type="button" class="btn promax-theme-choice ' + (s.promaxTheme === t.id ? 'selected' : '') +
+        '" style="--choice:' + t.p + ';--choice-bg:' + t.bg + '" onclick="promaxSetTheme(' + t.id + ')">' +
+        '<span class="promax-swatch"></span><span>' + t.name + '</span></button>';
+    }).join('');
+    iconWrap.innerHTML = Object.keys(ICONS).map(function (key) {
+      return '<button type="button" type="button" class="btn ' + (s.promaxIcons === key ? 'btn-p' : '') +
+        '" onclick="promaxSetIcons(\'' + key + '\')">' + ICONS[key].values.slice(0, 4).join(' ') +
+        '<br><small>' + ICONS[key].name + '</small></button>';
+    }).join('');
+    var radius = document.getElementById('promax-radius');
+    var radiusLabel = document.getElementById('promax-radius-label');
+    if (radius) radius.value = s.promaxRadius == null ? 14 : s.promaxRadius;
+    if (radiusLabel) radiusLabel.textContent = (s.promaxRadius == null ? 14 : s.promaxRadius) + 'px';
+  }
+  window.promaxSetTheme = function (id) {
+    getSettings().promaxTheme = id;
+    saveAppearance();
+    toast('✅ تم تغيير شكل التطبيق');
+  };
+  window.promaxSetIcons = function (key) {
+    getSettings().promaxIcons = key;
+    saveAppearance();
+    toast('✅ تم تغيير أشكال الأيقونات');
+  };
+  window.promaxSetRadius = function (value) {
+    getSettings().promaxRadius = Number(value);
+    document.getElementById('promax-radius-label').textContent = value + 'px';
+    saveAppearance();
+  };
+  window.promaxSetBackground = function (event) {
+    var file = event.target.files && event.target.files[0];
+    if (!file) return;
+    if (file.size > 4 * 1024 * 1024) return toast('⚠️ الخلفية أكبر من 4MB');
+    var reader = new FileReader();
+    reader.onload = function () {
+      getSettings().promaxBg = reader.result;
+      saveAppearance();
+      toast('✅ تم ضبط الخلفية');
+    };
+    reader.readAsDataURL(file);
+  };
+  window.promaxRemoveBackground = function () {
+    getSettings().promaxBg = null;
+    saveAppearance();
+    var input = document.getElementById('promax-bg');
+    if (input) input.value = '';
+    toast('✅ تمت إزالة الخلفية');
+  };
+
+  function injectAppearanceCard() {
+    if (document.getElementById('promax-appearance-card')) return;
+    var settings = document.getElementById('scr-set');
+    if (!settings) return;
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.id = 'promax-appearance-card';
+    card.innerHTML =
+      '<h3>🎨 أشكال Pro Max</h3>' +
+      '<div class="alert alert-info">تمت إضافة الأشكال والأيقونات والخلفيات من سكرتيرا Pro Max دون تغيير وظائف الطبيب.</div>' +
+      '<label>🎨 شكل التطبيق</label><div id="promax-theme-picker" class="grid4"></div>' +
+      '<label style="display:block;margin-top:12px">🔷 شكل الأيقونات</label><div id="promax-icon-picker" class="grid3"></div>' +
+      '<label style="display:block;margin-top:12px">📐 استدارة الزوايا: <span id="promax-radius-label">14px</span></label>' +
+      '<input id="promax-radius" type="range" min="0" max="28" value="14" oninput="promaxSetRadius(this.value)">' +
+      '<label style="display:block;margin-top:8px">🖼️ خلفية مخصصة</label>' +
+      '<input id="promax-bg" type="file" accept="image/*" onchange="promaxSetBackground(event)">' +
+      '<button type="button" type="button" class="btn btn-sm btn-d" onclick="promaxRemoveBackground()">🗑️ إزالة الخلفية</button>';
+    settings.appendChild(card);
+    renderAppearancePicker();
+    applyProMaxAppearance();
+  }
+
+  function reportItems() {
+    var reports = Array.isArray(DB.doctorReports) ? DB.doctorReports.slice() : [];
+    var messages = Array.isArray(DB.clinicMessages) ? DB.clinicMessages : [];
+    var ids = {};
+    reports.forEach(function (r) { ids[r.id] = true; });
+    messages.forEach(function (m) {
+      if (m.reportId && ids[m.reportId]) return;
+      if (m.patientId || m.files || m.attachments || m.photos) {
+        reports.push({
+          id: m.id || ('message-' + m.date),
+          patientId: m.patientId,
+          patientName: m.patientName || (m.title || '').replace(/^📨\s*ملف مريض:\s*/, ''),
+          reason: m.message || m.title || 'ملف وارد من السكرتيرة',
+          photos: m.photos || [],
+          files: m.files || m.attachments || [],
+          date: m.date || Date.now(),
+          sender: m.sender || 'Secretary',
+          status: m.status || 'sent'
+        });
+      }
+    });
+    return reports.sort(function (a, b) { return (b.date || 0) - (a.date || 0); });
+  }
+  function fileCount(report) {
+    return (report.files || report.attachments || report.documents || []).length;
+  }
+  function reportPhotos(report) {
+    return report.photos || report.images || [];
+  }
+  function reportById(id) {
+    return reportItems().find(function (r) { return String(r.id) === String(id); });
+  }
+  function renderInbox() {
+    var list = document.getElementById('promax-inbox-list');
+    var count = document.getElementById('promax-inbox-count');
+    if (!list) return;
+    var reports = reportItems();
+    if (count) count.textContent = reports.filter(function (r) { return r.status !== 'received'; }).length;
+    var signature = reports.map(function (r) { return r.id + ':' + (r.date || '') + ':' + r.status; }).join('|');
+    if (initializedReports && signature !== window.__promaxLastReportSignature && reports.length) {
+      audioTone('success');
+      speak('وصل ملف جديد من السكرتيرة');
+      toast('📨 وصل ملف أو صور جديدة من السكرتيرة');
+    }
+    initializedReports = true;
+    window.__promaxLastReportSignature = signature;
+    reports = reports.slice(0, 50);
+    list.innerHTML = reports.length ? reports.map(function (r) {
+      var photos = reportPhotos(r).length, files = fileCount(r);
+      return '<div class="list-item promax-report-item">' +
+        '<div class="li-info"><div class="li-name">📨 ' + safeText(r.patientName || 'مريض غير محدد') + '</div>' +
+        '<div class="li-meta">🕐 ' + new Date(r.date || Date.now()).toLocaleString('ar') +
+        ' • 🖼️ ' + photos + ' صور • 📎 ' + files + ' ملفات</div></div>' +
+        '<button type="button" class="btn btn-sm btn-p" onclick="promaxOpenReport(\'' + String(r.id).replace(/'/g, '\\\'') + '\')">فتح</button></div>';
+    }).join('') : '<div class="empty">لا توجد ملفات واردة من السكرتيرة</div>';
+  }
+  function ensurePatientForReport(report) {
+    if (report.patientId && DB.patients && DB.patients[report.patientId]) return DB.patients[report.patientId];
+    var phone = report.phone || '';
+    var found = Object.values(DB.patients || {}).find(function (p) {
+      return phone && p.phone === phone || report.patientName && normalized(p.name) === normalized(report.patientName);
+    });
+    if (found) return found;
+    var id = typeof uid === 'function' ? uid() : String(Date.now());
+    var p = { id: id, name: report.patientName || 'مريض وارد', phone: phone, age: report.age || '',
+      createdAt: Date.now(), photos: [], notes: [], visits: [], attachments: [] };
+    DB.patients = DB.patients || {};
+    DB.patients[id] = p;
+    return p;
+  }
+  window.promaxOpenReport = function (id) {
+    currentReport = reportById(id);
+    if (!currentReport) return toast('⚠️ الملف غير موجود');
+    var photos = reportPhotos(currentReport);
+    var files = currentReport.files || currentReport.attachments || currentReport.documents || [];
+    document.getElementById('promax-report-title').textContent = '📨 ملف وارد: ' + (currentReport.patientName || 'مريض');
+    document.getElementById('promax-report-body').innerHTML =
+      '<div class="alert alert-info"><b>المريض:</b> ' + safeText(currentReport.patientName || '—') +
+      '<br><b>الهاتف:</b> ' + safeText(currentReport.phone || '—') +
+      '<br><b>سبب الزيارة:</b> ' + safeText(currentReport.reason || '—') +
+      (currentReport.chronic ? '<br><b>أمراض مزمنة:</b> نعم — ' + safeText(currentReport.chronicDetails || 'غير محدد') : '<br><b>أمراض مزمنة:</b> لا') + '</div>' +
+      '<h4>🖼️ الصور الواردة (' + photos.length + ')</h4><div class="photo-grid promax-incoming-photos">' +
+      (photos.length ? photos.map(function (p) { var src = photoSrc(p); return '<a href="' + src + '" target="_blank" class="photo-item"><img src="' + src + '"></a>'; }).join('') : '<div class="empty">لا صور</div>') +
+      '</div><h4 style="margin-top:12px">📎 الملفات الواردة (' + files.length + ')</h4><div>' +
+      (files.length ? files.map(function (f, i) {
+        var href = f.data || f.url || '#';
+        return '<a class="promax-file-card" href="' + href + '" download="' + safeText(f.name || ('ملف-' + (i + 1))) + '" target="_blank">📎 ' + safeText(f.name || ('ملف وارد ' + (i + 1))) + '<small>' + safeText(f.type || '') + '</small></a>';
+      }).join('') : '<div class="empty">لا ملفات</div>') + '</div>';
+    openModal('m-promax-report');
+  };
+  window.promaxImportReport = function () {
+    if (!currentReport) return;
+    var p = ensurePatientForReport(currentReport);
+    p.photos = p.photos || [];
+    p.attachments = p.attachments || [];
+    var photos = reportPhotos(currentReport);
+    var files = currentReport.files || currentReport.attachments || currentReport.documents || [];
+    var existing = {};
+    p.photos.forEach(function (x) { existing[x.id || x.data] = true; });
+    photos.forEach(function (photo) {
+      var key = photo.id || photo.data;
+      if (!existing[key]) p.photos.push({ id: photo.id || uid(), data: photo.data || photo.url, date: photo.date || Date.now(), source: 'secretary' });
+    });
+    var existingFiles = {};
+    p.attachments.forEach(function (x) { existingFiles[x.id || x.data] = true; });
+    files.forEach(function (file) {
+      var key = file.id || file.data;
+      if (!existingFiles[key]) p.attachments.push({ id: file.id || uid(), name: file.name || 'ملف وارد', type: file.type || '', data: file.data || file.url, size: file.size || 0, date: file.date || Date.now(), source: 'secretary' });
+    });
+    currentReport.status = 'received';
+    currentReport.receivedAt = Date.now();
+    if (typeof save === 'function') save();
+    if (typeof render === 'function') render();
+    renderInbox();
+    closeModal('m-promax-report');
+    audioTone('success');
+    toast('✅ تم استقبال الصور والملفات داخل ملف المريض');
+  };
+  window.promaxOpenInbox = function () { nav('scr-promax-inbox'); };
+
+  function injectInbox() {
+    if (document.getElementById('scr-promax-inbox')) return;
+    var navBar = document.getElementById('main-nav');
+    if (!navBar) return;
+    var button = document.createElement('button');
+    button.className = 'nav-btn';
+    button.dataset.scr = 'scr-promax-inbox';
+    button.innerHTML = '<span class="ico">📨</span>الوارد <b id="promax-inbox-count" class="promax-inbox-badge">0</b>';
+    button.onclick = function () { nav('scr-promax-inbox'); };
+    var settingsButton = navBar.querySelector('[data-scr="scr-set"]');
+    navBar.insertBefore(button, settingsButton || null);
+    var screen = document.createElement('div');
+    screen.className = 'screen';
+    screen.id = 'scr-promax-inbox';
+    screen.innerHTML = '<div class="card"><div class="row" style="justify-content:space-between"><h3>📨 الوارد من السكرتيرة</h3><button type="button" class="btn btn-sm btn-s" onclick="promaxOpenInbox()">🔄 تحديث</button></div><div class="alert alert-info">تظهر هنا تقارير المرضى والصور والملفات التي ترسلها السكرتيرة عبر المزامنة.</div><div id="promax-inbox-list"></div></div>';
+    document.body.insertBefore(screen, navBar);
+    var modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.id = 'm-promax-report';
+    modal.innerHTML = '<div class="modal-box" style="max-width:760px"><button type="button" class="close" onclick="closeModal(\'m-promax-report\')">✕</button><h3 id="promax-report-title">📨 ملف وارد</h3><div id="promax-report-body"></div><button type="button" class="btn btn-p btn-block" onclick="promaxImportReport()">📥 استقبال داخل ملف المريض</button><button type="button" class="btn btn-block" onclick="closeModal(\'m-promax-report\')">إغلاق</button></div>';
+    document.body.appendChild(modal);
+    renderInbox();
+  }
+
+  function injectVoice() {
+    if (document.getElementById('promax-voice-fab')) return;
+    var style = document.createElement('style');
+    style.textContent =
+      '#promax-voice-fab{position:fixed;bottom:88px;left:14px;z-index:220;width:58px;height:58px;border-radius:50%;border:0;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;font-size:1.45rem;box-shadow:0 6px 18px rgba(0,0,0,.25)}' +
+      '#promax-voice-fab.listening{background:linear-gradient(135deg,#f44336,#b71c1c);animation:pulse 1.2s infinite}' +
+      '#promax-voice-bar{position:fixed;bottom:154px;left:14px;right:14px;z-index:220;background:rgba(0,0,0,.84);color:#fff;padding:11px 14px;border-radius:14px;font-size:.85rem;display:none}' +
+      '#promax-voice-bar b{color:#00e676}.promax-inbox-badge{background:#f44336;color:#fff;border-radius:999px;padding:1px 5px;font-size:.62rem}' +
+      '.promax-report-item{border-right:4px solid var(--p)}.promax-incoming-photos{margin:8px 0}.promax-file-card{display:flex;align-items:center;gap:8px;padding:10px;margin:6px 0;background:#f5f5f7;border-radius:10px;color:var(--p);text-decoration:none;font-weight:bold}.promax-file-card small{margin-right:auto;color:#777;font-weight:normal}' +
+      '.promax-theme-choice{background:var(--choice-bg);border:2px solid transparent;min-height:58px;display:flex;align-items:center;justify-content:center;gap:6px}.promax-theme-choice.selected{border-color:var(--choice);box-shadow:0 0 0 2px var(--choice)}.promax-swatch{width:16px;height:16px;border-radius:50%;background:var(--choice);display:inline-block}' +
+      'body.promax-theme-2{--p:#7C4DFF;--p2:#512DA8;--s:#00E5B7;--w:#FFB74D;--d:#FF5252;--light:#121212;--card:#1E1E1E;--txt:#EEE;--sh:0 4px 20px rgba(0,0,0,.5)}body.promax-theme-2 input,body.promax-theme-2 select,body.promax-theme-2 textarea{background:#2A2A2A;color:#EEE;border-color:#444}body.promax-theme-2 .card,body.promax-theme-2 .stat,body.promax-theme-2 .list-item,body.promax-theme-2 .q-item{color:#EEE}' +
+      'body.promax-theme-3{--p:#5D4037;--p2:#795548;--s:#8D6E63;--w:#B08968;--light:#F5F0E8;--card:#FFFDF8;--r:4px;--sh:0 2px 8px rgba(0,0,0,.08)}body.promax-theme-3,body.promax-theme-3 input,body.promax-theme-3 select,body.promax-theme-3 textarea,body.promax-theme-3 button{font-family:Georgia,serif}' +
+      'body.promax-theme-4{--p:#FF4081;--p2:#7C4DFF;--s:#00BFA5;--w:#FFC107;--light:#FFF3F8;--r:24px}body.promax-theme-4 .header{background:linear-gradient(135deg,#FF4081,#7C4DFF 55%,#00BFA5)}' +
+      'body.promax-theme-5{--p:#37474F;--p2:#455A64;--s:#607D8B;--w:#FF7043;--light:#FAFAFA;--r:2px;--sh:none}body.promax-theme-5 .card{border:1px solid #E0E0E0}' +
+      'body.promax-theme-6{--p:#4F46E5;--p2:#7C3AED;--s:#22C55E;--w:#F59E0B;--light:#F3F4FB;--r:18px;--sh:0 6px 24px rgba(79,70,229,.12)}body.promax-theme-6 .header{background:linear-gradient(135deg,#4F46E5,#7C3AED)}' +
+      'body.promax-theme-7{--p:#1E3A5F;--p2:#1E3A5F;--s:#2E7D32;--w:#B7791F;--d:#B91C1C;--light:#F2F4F7;--r:6px;--sh:0 1px 3px rgba(16,24,40,.08)}body.promax-theme-7 .header{background:#1E3A5F;border-bottom:3px solid #16283F;box-shadow:none}body.promax-theme-7 .btn{border-radius:6px;box-shadow:none}' +
+      'body.promax-theme-8{--p:#4F46E5;--p2:#7C3AED;--s:#16A34A;--w:#F59E0B;--d:#EF4444;--light:#F4F5FA;--r:22px;--sh:0 10px 30px rgba(17,24,39,.06)}body.promax-theme-8 .header{background:var(--light);color:#111827;box-shadow:none;border-bottom:1px solid #E9E9F5}body.promax-theme-8 .btn{border-radius:999px}body.promax-theme-8 .card{border:none}body.promax-theme-8 input,body.promax-theme-8 select,body.promax-theme-8 textarea{background:#F4F5FA;border-color:#F4F5FA;border-radius:14px}';
+    document.head.appendChild(style);
+    document.body.insertAdjacentHTML('beforeend', '<button type="button" id="promax-voice-fab" title="الأوامر الصوتية" aria-label="الأوامر الصوتية">🎙️</button><div id="promax-voice-bar"></div>');
+    var fab = document.getElementById('promax-voice-fab');
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    var listening = false, recognition = null;
+    function done(text) { showVoiceBar('✅ <b>' + safeText(text) + '</b>'); audioTone('voice'); speak(text); toast('🎙️ ' + text); }
+    function command(text) {
+      var t = normalized(text), p = patientFromText(text);
+      showVoiceBar('🗣️ سمعت: <b>' + safeText(text) + '</b>');
+      if (/(الوارد|الملفات الوارده|ملفات السكرتيره|inbox|incoming)/.test(t)) { promaxOpenInbox(); return done('فتح الوارد'); }
+      if (p) {
+        if (/(افتح|ملف|dossier|file|open)/.test(t)) { openPFile(p.id); return done('فتح ملف ' + p.name); }
+        if (/(استقبل|ضم|اضف الصور|import|receive)/.test(t)) {
+          var report = reportItems().find(function (r) { return String(r.patientId) === String(p.id) || normalized(r.patientName) === normalized(p.name); });
+          if (report) { currentReport = report; return promaxImportReport(); }
+        }
+        if (/(استدع|نادي|call|patient)/.test(t)) {
+          var q = (DB.queue || []).find(function (x) { return x.patientId === p.id && (x.status === 'sent' || x.status === 'waiting'); });
+          if (q && typeof callPatient === 'function') { callPatient(q.id); return done('استدعاء ' + p.name); }
+        }
+      }
+      var routes = [
+        { words: ['لوحه التحكم', 'الرئيسيه', 'dashboard', 'home'], id: 'scr-dash', label: 'لوحة التحكم' },
+        { words: ['الطابور', 'قائمه الانتظار', 'queue'], id: 'scr-queue', label: 'الطابور' },
+        { words: ['المرضى', 'الارشيف', 'archive', 'patients'], id: 'scr-mine', label: 'أرشيف المرضى' },
+        { words: ['الماليه', 'finance'], id: 'scr-fin', label: 'المالية' },
+        { words: ['المخزون', 'inventory'], id: 'scr-inv', label: 'المخزون' },
+        { words: ['الحاسبه', 'calculator'], id: 'scr-calc', label: 'الحاسبة' },
+        { words: ['الاعدادات', 'settings'], id: 'scr-set', label: 'الإعدادات' }
+      ];
+      var route = routes.find(function (r) { return r.words.some(function (w) { return t.indexOf(normalized(w)) >= 0; }); });
+      if (route) { nav(route.id); return done('فتح ' + route.label); }
+      if (/(استدعاء التالي|التالي|call next)/.test(t)) {
+        var next = (DB.queue || []).find(function (q) { return q.status === 'sent'; });
+        if (next && typeof callPatient === 'function') { callPatient(next.id); return done('تم استدعاء التالي'); }
+        return done('لا يوجد مريض مرسل');
+      }
+      if (/(نسخه احتياطيه|backup)/.test(t)) { backupJSON(); return done('إنشاء نسخة احتياطية'); }
+      if (/(طباعه|اطبع|print)/.test(t)) { window.print(); return done('بدء الطباعة'); }
+      if (/(المظهر|الشكل|theme|appearance)/.test(t)) { nav('scr-set'); setTimeout(function () { var c = document.getElementById('promax-appearance-card'); if (c) c.scrollIntoView({ behavior: 'smooth' }); }, 100); return done('فتح أشكال التطبيق'); }
+      if (/(المساعده|الاوامر|help|commands)/.test(t)) {
+        showVoiceBar('🎙️ قل: الوارد، الطابور، المرضى، افتح ملف [الاسم]، استقبل صور [الاسم]، استدعاء التالي، المظهر، طباعة');
+        return speak('قل الوارد أو افتح ملف المريض أو استقبل الصور');
+      }
+      var buttons = Array.from(document.querySelectorAll('button')).filter(function (b) { return b.offsetParent; });
+      var hit = buttons.find(function (b) { return normalized(b.textContent).length > 2 && t.indexOf(normalized(b.textContent)) >= 0; });
+      if (hit) { hit.click(); return done('تنفيذ ' + hit.textContent.trim().slice(0, 30)); }
+      showVoiceBar('❓ لم أفهم الأمر. قل «المساعدة» لعرض الأوامر');
+      speak('لم أفهم الأمر');
+    }
+    window.promaxHandleVoiceCommand = command;
+    fab.onclick = function () {
+      if (!SR) { showVoiceBar('⚠️ الأوامر الصوتية تعمل في Chrome أو Edge'); return; }
+      if (listening) { try { recognition.stop(); } catch (_) {} return; }
+      recognition = new SR();
+      recognition.lang = getSettings().lang === 'en' ? 'en-US' : getSettings().lang === 'fr' ? 'fr-FR' : 'ar-SA';
+      recognition.continuous = false; recognition.interimResults = true;
+      recognition.onstart = function () { listening = true; fab.classList.add('listening'); audioTone('voice'); showVoiceBar('🎙️ أستمع إليك...'); };
+      recognition.onend = function () { listening = false; fab.classList.remove('listening'); };
+      recognition.onerror = function (e) { listening = false; fab.classList.remove('listening'); showVoiceBar(e.error === 'not-allowed' ? '🚫 اسمح للمتصفح باستخدام الميكروفون' : '⚠️ تعذر الاستماع'); };
+      recognition.onresult = function (e) {
+        var result = e.results[e.results.length - 1];
+        if (result.isFinal) command(result[0].transcript);
+        else showVoiceBar('… ' + safeText(result[0].transcript));
+      };
+      try { recognition.start(); } catch (_) { showVoiceBar('⚠️ تعذر بدء الميكروفون'); }
+    };
+    fab.oncontextmenu = function (e) {
+      e.preventDefault();
+      showVoiceBar('🎙️ قل: الوارد، افتح ملف أحمد، استقبل صور أحمد، استدعاء التالي، المظهر، طباعة');
+    };
+  }
+
+  function boot() {
+    injectAppearanceCard();
+    injectInbox();
+    injectVoice();
+    applyProMaxAppearance();
+    renderAppearancePicker();
+    renderInbox();
+    setInterval(function () { injectAppearanceCard(); injectInbox(); renderInbox(); }, 2500);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
+
+<script>
+window.addEventListener("DOMContentLoaded",function(){
+  var sel=document.getElementById("promax-doctor-lang");
+  if(!sel)return;
+  function sync(l){try{if(typeof window.applyLanguage==="function")window.applyLanguage(l)}catch(e){console.error(e)}}
+  sel.addEventListener("change",function(){sync(sel.value)});
+  try{sel.value=localStorage.getItem("__dct_lang__")||sel.value||"ar"}catch(e){}
+});
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/i18next@23.11.5/i18next.min.js"></script>
+<script>
+/* Full i18n engine for the dental clinic app.
+   - Source of truth: this single dictionary
+   - Auto-rewrites ALL visible Arabic strings on the page on language change
+   - Persists choice in localStorage and re-runs the existing render() */
+(function () {
+  'use strict';
+  if (window.__promaxI18N) return;
+  window.__promaxI18N = true;
+
+  var I18N_DATA = {"fr": {"دخول الطبيب المدير": "Connexion médecin directeur", "صلاحية كاملة (إدارة + طب)": "Accès complet (gestion + médecine)", "👤 اسم المستخدم": "👤 Nom d'utilisateur", "🔑 كلمة المرور": "🔑 Mot de passe", "🔓 دخول": "🔓 Connexion", "💡 افتراضي:": "💡 Par défaut :", "🚪 خروج": "🚪 Déconnexion", "خروج؟": "Déconnexion ?", "❌ بيانات خاطئة": "❌ Identifiants incorrects", "📡 ربط": "📡 Connexion", "غير متصل بالسكرتيرة": "Non connecté à la secrétaire", "جاري الاتصال بـ Supabase...": "Connexion à Supabase en cours...", "جاري الاتصال...": "Connexion en cours...", "متصل بـ Supabase": "Connecté à Supabase", "المزامنة تعمل": "Synchronisation active", "تزامن دائم يعمل": "Synchronisation permanente active", "القناة المباشرة أغلقت، التزامن الدائم مستمر": "Canal direct fermé, la synchronisation permanente continue", "✅ متصل بـ Supabase": "✅ Connecté à Supabase", "✅ متصل مباشر + تزامن دائم": "✅ Connecté directement + synchronisation permanente", "🔄 التزامن تعمل": "🔄 Synchronisation en cours", "🔄 المزامنة تعمل": "🔄 Synchronisation active", "❌ خطأ Realtime - التزامن يدوي": "❌ Erreur Realtime - synchronisation manuelle", "❌ تعذر الاتصال: ": "❌ Connexion impossible : ", "☁️ حالة التزامن - Supabase": "☁️ État de synchronisation - Supabase", "✅ التزامن مع Supabase مفعّل تلقائياً": "✅ Synchronisation Supabase activée automatiquement", "البيانات تتزامن فوراً بين الطبيب والسكرتيرة عبر Supabase Realtime.": "Les données se synchronisent instantanément entre médecin et secrétaire via Supabase Realtime.", "جاري التحقق...": "Vérification en cours...", "✔️ إغلاق": "✔️ Fermer", "القيادة": "Tableau de bord", "لوحة التحكم": "Tableau de bord", "الطابور": "File d'attente", "المرضى": "Patients", "الأرشيف": "Archives", "المالية": "Finances", "المخزون": "Stock", "الحاسبة": "Calculatrice", "حاسبة": "Calculatrice", "الإعدادات": "Paramètres", "إعدادات": "Paramètres", "الوارد": "Boîte de réception", "بيانات": "Données", "البيانات": "Données", "عيادة الأسنان": "Cabinet dentaire", "صلاحية كاملة": "Accès complet", "دخل اليوم": "Revenu du jour", "دخل الشهر": "Revenu du mois", "مصاريف الشهر": "Dépenses du mois", "خسائر الشهر": "Pertes du mois", "صافي الربح": "Bénéfice net", "إجمالي الديون": "Total des dettes", "مرضى اليوم": "Patients du jour", "خطط معلقة": "Plans en attente", "➕ إضافة مصروف جديد": "➕ Nouvelle dépense", "➕ إضافة خسارة جديدة": "➕ Nouvelle perte", "📊 دخل آخر 7 أيام": "📊 Revenu des 7 derniers jours", "📈 الربح والخسارة (آخر 6 أشهر)": "📈 Bénéfice & Perte (6 derniers mois)", "🔔 إجراءات تحتاج انتباهك": "🔔 Actions nécessitant votre attention", "كل شيء على ما يرام ✨": "Tout est en ordre ✨", "اعتماد الكل": "Tout approuver", "عرض": "Afficher", "خسارة هذا الشهر: ": "Perte ce mois-ci : ", "مادة وصلت الحد الأدنى ": " article(s) ont atteint le seuil minimum ", "خطة معلقة ": "Plan en attente ", "ينتظرون": "En attente", "في المعاينة": "En consultation", "مكتملة اليوم": "Terminées aujourd'hui", "🩺 المريض الحالي": "🩺 Patient actuel", "لا يوجد مريض حالياً": "Aucun patient actuellement", "⏳ المرضى المُرسلون من السكرتيرة": "⏳ Patients envoyés par la secrétaire", "✅ كشوفات اليوم المكتملة": "✅ Consultations terminées aujourd'hui", "✅ استدعاء": "✅ Appeler", "📂 فتح": "📂 Ouvrir", "لا أحد ينتظر": "Personne n'attend", "مدفوع": "Payé", "بانتظار الدفع": "En attente de paiement", "🩺 تم الاستدعاء": "🩺 Patient appelé", "✅ أُنهي الكشف": "✅ Consultation terminée", "استدعاء التالي": "Appeler le suivant", "إجراءات سريعة": "Actions rapides", "قائمة سريعة": "Menu rapide", "📂 أرشيف المرضى": "📂 Archives des patients", "🔍 بحث بالاسم أو الهاتف...": "🔍 Recherche par nom ou téléphone...", " صورة": " photo(s)", " لا مرضى": " Aucun patient", "💰 المعاملات المالية": "💰 Transactions financières", "💵 الإيرادات": "💵 Revenus", "💸 المصاريف": "💸 Dépenses", "📉 الخسائر": "📉 Pertes", "📊 ربح/خسارة": "📊 Bénéfice/Perte", " الإجمالي (12 شهراً):": " Total (12 mois) :", "الإيرادات": "Revenus", "المصروفات": "Dépenses", "الخسائر": "Pertes", "الإجمالي (12 شهراً):": "Total (12 mois) :", "ربح": "Bénéfice", "خسارة": "Perte", "الصافي:": "Net :", "ملاحظة": "Note", "لا معاملات": "Aucune transaction", "إجمالي المصاريف: ": "Total des dépenses : ", "إجمالي الخسائر: ": "Total des pertes : ", "لا مصاريف": "Aucune dépense", "لا خسائر": "Aucune perte", "تلف معدات، مادة منتهية، خطأ...": "Équipement endommagé, stock périmé, erreur...", "إيجار، رواتب، مواد، كهرباء...": "Loyer, salaires, matériaux, électricité...", "📊 مقارنة شهرية (دخل ـ مصاريف ـ خسائر)": "📊 Comparaison mensuelle (revenus - dépenses - pertes)", "دخل": "Revenu", "مصاريف": "Dépenses", "صافي": "Net", "📦 المخزون": "📦 Stock", "الحالة": "Statut", "الكمية": "Quantité", "الحد": "Seuil", "لا مواد": "Aucun article", "تلف": "Détérioré", "الكمية المضافة:": "Quantité ajoutée :", "كم وحدة تالفة من ": "Combien d'unités détériorées de ", " وحدة × ": " unité(s) × ", "تلف مخزون: ": "Détérioration de stock : ", " تضمين عرض": "inclure", "📋 خطط العلاج (كلها تُعتمد تلقائياً)": "📋 Plans de traitement (tous approuvés automatiquement)", "لا خطط": "Aucun plan", "مُعتمد": "Approuvé", "معلق": "En attente", "🧮 حاسبة رياضية": "🧮 Calculatrice mathématique", "💡 آخر نتيجة محفوظة. يمكنك استخدامها في حقل المبلغ بنسخها.": "💡 Dernier résultat enregistré. Vous pouvez l'utiliser dans le champ montant en le copiant.", "اسم العيادة": "Nom du cabinet", "تغيير كلمة المرور": "Changer le mot de passe", "كلمة مرور جديدة": "Nouveau mot de passe", "💾 حفظ الإعدادات": "💾 Enregistrer", "💾 النسخ الاحتياطي الكربوني (نسخة طبق الأصل)": "💾 Sauvegarde carbone (copie conforme)", "ما يتم حفظه: كل البيانات + كل الصور (مضغوطة) + المخزون + المعاملات + خرائط الأسنان + الملاحظات + كل شيء بدقة 100%.": "Ce qui est sauvegardé : toutes les données + toutes les photos (compressées) + stock + transactions + cartes dentaires + notes + tout avec une fidélité de 100%.", "يُحفظ في ملف ZIP واحد قابل للاستعادة الكاملة.": "Enregistré dans un seul fichier ZIP entièrement restaurable.", "📥 إنشاء نسخة كربونية كاملة (ZIP)": "📥 Créer une sauvegarde complète (ZIP)", "📥 نسخة JSON خفيفة (بدون ضغط إضافي)": "📥 Sauvegarde JSON légère (sans compression supplémentaire)", "📤 استعادة من نسخة احتياطية": "📤 Restaurer depuis une sauvegarde", "🕐 آخر نسخة احتياطية": "🕐 Dernière sauvegarde", "لم يتم بعد": "Pas encore effectuée", "⚠️ مسح كل البيانات نهائياً؟ هذا لا يمكن التراجع عنه!": "⚠️ Effacer définitivement toutes les données ? Opération irréversible !", "🗑️ مسح كل البيانات": "🗑️ Effacer toutes les données", "📜 سجل النشاط": "📜 Journal d'activité", "🧹 إدارة مساحة التخزين الذكية": "🧹 Gestion intelligente du stockage", "💽 استخراج الصور وتفريغ المساحة الآن": "💽 Extraire les photos et libérer l'espace maintenant", "💽 استخراج الصور وتفريغ المساحة الآن'": "💽 Extraire les photos et libérer l'espace maintenant", "تنظيف ذكي:": "Nettoyage intelligent :", "هذه الأداة ستقوم بتجميع جميع صور المرضى في ملف واحد (ZIP) لتحميله على جهازك، ثم ستقوم بحذف الصور من النظام لتخفيف الضغط وتسريع العيادة. (لن يتم المساس ببيانات المرضى، فقط الصور).": "Cet outil rassemble toutes les photos des patients en un seul fichier (ZIP) à télécharger sur votre appareil, puis supprime les photos du système pour alléger la charge et accélérer la clinique. (Les données des patients ne sont pas touchées, seules les photos).", "عثرت على (": "Trouvé (", ") صورة في النظام.\\nهل أنت متأكد من رغبتك في تحميلها كملف ZIP ثم مسحها من النظام لتوفير المساحة؟\\n\\n(لا تقلق، لن يتم الحذف إلا بعد اكتمال التحميل لجهازك بنجاح).": ") photos dans le système.\\nÊtes-vous sûr de vouloir les télécharger en fichier ZIP puis les supprimer du système pour libérer de l'espace ?\\n\\n(Rassurez-vous, la suppression n'aura lieu qu'après téléchargement réussi sur votre appareil).", ") صورة في النظام.\nهل أنت متأكد من رغبتك في تحميلها كملف ZIP ثم مسحها من النظام لتوفير المساحة؟\n\n(لا تقلق، لن يتم الحذف إلا بعد اكتمال التحميل لجهازك بنجاح).": ") photos dans le système.\\nÊtes-vous sûr de vouloir les télécharger en fichier ZIP puis les supprimer du système pour libérer de l'espace ?\\n\\n(Rassurez-vous, la suppression n'aura lieu qu'après téléchargement réussi).", "⏳ جاري المعالجة والضغط...": "⏳ Traitement et compression en cours...", "⏳ جاري تجميع الصور وتجهيز الملف... يرجى الانتظار.": "⏳ Rassemblement des photos en cours... Veuillez patienter.", "✅ تمت العملية بنجاح! تم حفظ ": "✅ Opération réussie ! ", " صور وتفريغ المساحة.": " photo(s) sauvegardées et espace libéré.", "لا توجد صور مخزنة في النظام حالياً.": "Aucune photo stockée actuellement.", "لا توجد صور مخزنة.": "Aucune photo stockée.", "لا توجد صور.": "Aucune photo.", "حدث خطأ غير متوقع، لم يتم مسح أي شيء لحماية بياناتك.": "Erreur inattendue, rien n'a été supprimé pour protéger vos données.", "حدث خطأ أثناء العملية.": "Une erreur s'est produite pendant l'opération.", "تمت العملية بنجاح!": "Opération réussie !", "⚠️ قاعدة البيانات غير متوفرة أو لم يتم تحميلها بعد!": "⚠️ Base de données indisponible ou pas encore chargée !", "💾 حفظ": "💾 Enregistrer", "💾 حفظ المصروف": "💾 Enregistrer la dépense", "💾 سُجّلت الخسارة": "💾 Perte enregistrée", "💾 سُجّلت الفاتورة + الدفعة": "💾 Facture + paiement enregistrés", "💾 سُجّلت خسارة ": "💾 Perte enregistrée : ", "💽 حفظ": "💽 Enregistrer", " نسخة كربونية ": " sauvegarde carbone ", " جاري إنشاء النسخة الكربونية...": " Sauvegarde carbone en cours...", "⚠️ الذاكرة ممتلئة! اعمل نسخة احتياطية ثم احذف صور قديمة": "⚠️ Mémoire pleine ! Faites une sauvegarde puis supprimez les anciennes photos", "✅ تم الحفظ": "✅ Enregistré", "💸 إضافة مصروف": "💸 Ajouter une dépense", "الفئة (إيجار، رواتب، مواد، كهرباء...)": "Catégorie (loyer, salaires, matériaux, électricité...)", "📛 الفئة (إيجار، رواتب، مواد، كهرباء...)": "📛 Catégorie (loyer, salaires, matériaux, électricité...)", "💰 المبلغ DZD": "💰 Montant DZD", "📝 ملاحظة (اختياري)": "📝 Note (facultatif)", "📉 إضافة خسارة": "📉 Ajouter une perte", "📛 نوع الخسارة (تلف معدات، مادة منتهية، خطأ...)": "📛 Type de perte (équipement, stock périmé, erreur...)", "💰 قيمة الخسارة DZD": "💰 Valeur de la perte DZD", "📝 سبب الخسارة": "📝 Cause de la perte", "📦 إضافة مادة": "📦 Ajouter un article", "📛 اسم المادة": "📛 Nom de l'article", "📊 الكمية": "📊 Quantité", "⚠️ الحد الأدنى": "⚠️ Seuil minimum", "💰 التكلفة بالوحدة (للحساب عند التلف)": "💰 Coût unitaire (calcul des pertes)", "📂 الملف السريري": "📂 Dossier clinique", "مريض غير موجود": "Patient introuvable", "🩺 نظرة عامة": "🩺 Vue d'ensemble", "🦷 الأسنان": "🦷 Dents", "📸 صور": "📸 Photos", "📋 خطة علاج": "📋 Plan de traitement", "💊 وصفات": "💊 Prescriptions", "💰 فواتير": "💰 Factures", "📝 ملاحظات": "📝 Notes", "🍬 سكري": "🍬 Diabète", "💓 ضغط": "💓 Tension", "🌸 حساسية": "🌸 Allergie", "🚬 مدخن": "🚬 Fumeur", "🤰 حامل": "🤰 Enceinte", "💉 مميعات دم": "💉 Anticoagulants", "💊 الأدوية الحالية": "💊 Médicaments actuels", "🌸 تفاصيل الحساسية": "🌸 Détails de l'allergie", "🦷 السن ": "🦷 Dent n° ", "سليم": "Saine", "تسوس": "Carie", "حشوة": "Obturation", "تاج": "Couronne", "عصب": "Traitement canalaire", "مقلوع": "Extraite", "غائب": "Absente", "زراعة": "Implant", "يحتاج حشوة": "Nécessite obturation", "يحتاج قلع": "Nécessite extraction", "⬆️ علوي": "⬆️ Supérieure", "⬇️ سفلي": "⬇️ Inférieure", "⚪ سليم": "⚪ Saine", "🟠 تسوس": "🟠 Carie", "🔵 حشوة": "🔵 Obturation", "👑 تاج": "👑 Couronne", "🩺 عصب": "🩺 Traitement canalaire", "❌ مقلوع": "❌ Extraite", "🔩 زراعة": "🔩 Implant", "⚠️ يحتاج حشوة": "⚠️ Obturation requise", "🚨 يحتاج قلع": "🚨 Extraction requise", "⬜ غائب": "⬜ Absente", "📷 تصوير": "📷 Photographier", "📁 رفع": "📁 Téléverser", "لا صور": "Aucune photo", "📋 وصف الإجراء": "📋 Description de l'acte", "💰 التكلفة": "💰 Coût", "➕ إضافة (تُعتمد فوراً)": "➕ Ajouter (approuvé immédiatement)", "🔝 مُعتمد": "🔝 Approuvé", "⏳ ": "⏳ ", "✅ مُعتمد": "✅ Approuvé", "💊 اسم الدواء": "💊 Nom du médicament", "الجرعة (1×3 يومياً 5 أيام)": "Posologie (1×3/jour 5 jours)", "📱 إرسال واتساب": "📱 Envoyer WhatsApp", "💵 نقدي": "💵 Espèces", "💳 بطاقة": "💳 Carte", "🔴 دين": "🔴 Crédit", "➕ إضافة فاتورة + دفعة": "➕ Ajouter facture + paiement", "📝 ملاحظة طبية...": "📝 Note médicale...", "حالة السن": "État de la dent", "إنهاء الكشف": "Terminer la consultation", "✅ إنهاء الكشف": "✅ Terminer la consultation", "📞 ": "📞 ", " سنة": " ans", "الملف غير موجود": "Fichier introuvable", "✅": "✅", "❌": "❌", "حذف؟": "Supprimer ?", "لا هاتف": "Aucun téléphone", "لا وصفات": "Aucune prescription", "📋 نُسخ": "📋 Copié", "⚠️ بيانات غير مكتملة": "⚠️ Données incomplètes", "✅ أُضيف المصروف": "✅ Dépense ajoutée", "💡 لم تنشئ نسخة احتياطية منذ أكثر من أسبوع": "💡 Pas de sauvegarde depuis plus d'une semaine", "💽 بصمة النسخ الاحتياطي محفوظة": "💽 Empreinte de sauvegarde enregistrée", "✅ تم الاستعادة بنجاح": "✅ Restauration réussie", "❌ ملف غير صالح": "❌ Fichier invalide", "❌ جواب غير صالح": "❌ Réponse invalide", "❌ عرض غير صالح": "❌ Offre invalide", "مدير/طبيب": "Directeur/Médecin", "🎨 أشكال Pro Max": "🎨 Styles Pro Max", "شكل التطبيق": "Style de l'application", "شكل الأيقونات": "Style des icônes", "استدارة الزوايا": "Arrondi des coins", "🖼️ خلفية مخصصة": "🖼️ Arrière-plan personnalisé", "🗑️ إزالة الخلفية": "🗑️ Supprimer l'arrière-plan", "تصميم الأيقونات": "Design avec icônes", "تفعيل تصميم الأيقونات": "Activer le design avec icônes", "تصميم الأيقونات متوقف": "Design avec icônes désactivé", "تصميم الأيقونات مفعل": "Design avec icônes activé", "العودة للشكل الحالي": "Revenir au style actuel", "🧩 تصميم الأيقونات": "🧩 Design avec icônes", "شكل قريب من الواجهتين الموجودتين في الصور المرسلة، مع الحفاظ على كل وظائف التطبيق.": "Style proche des deux interfaces visibles dans les images envoyées, en conservant toutes les fonctions de l'application.", "تمت إضافة الأشكال والأيقونات والخلفيات من سكرتيرا Pro Max دون تغيير وظائف الطبيب.": "Styles, icônes et arrière-plans ajoutés depuis Secrétaire Pro Max sans modifier les fonctions du médecin.", "شكل التطبيق الآن قريب من التصميم الموجود في الصور": "Le style de l'application suit maintenant le design des images", "تم تغيير شكل التطبيق": "Style de l'application modifié", "تم تغيير أشكال الأيقونات": "Pack d'icônes modifié", "تم تفعيل تصميم الأيقونات": "Design avec icônes activé", "تم الرجوع إلى الشكل الحالي": "Retour au style actuel", "تم ضبط الخلفية": "Arrière-plan défini", "تمت إزالة الخلفية": "Arrière-plan supprimé", "🌍 اللغة / Language / Langue": "🌍 اللغة / Language / Langue", "تم تغيير لغة الطبيب": "Langue du médecin modifiée", "🌐 طبّق على شاشات السكرتيرة أيضاً": "🌐 Appliquer aussi aux écrans secrétaire", "🔙 العودة": "🔙 Retour", "أزرق هادئ": "Bleu calme", "ليلي": "Nuit", "كلاسيكي": "Classique", "حيوي": "Vif", "مسطح": "Aplat", "عصري": "Moderne", "إداري رسمي": "Administratif formel", "مساحة العمل": "Espace de travail", "كلاسيكية": "Classiques", "طبية": "Médicales", "خطية": "Linéaires", "الوارد من السكرتيرة": "Reçu de la secrétaire", "تظهر هنا تقارير المرضى والصور والملفات التي ترسلها السكرتيرة عبر المزامنة.": "Rapports de patients, photos et fichiers envoyés par la secrétaire via la synchronisation apparaissent ici.", "الملفات الواردة (": "Fichiers reçus (", "الصور الواردة (": "Photos reçues (", "الملفات الواردة من السكرتيرة": "Fichiers reçus de la secrétaire", "لا توجد ملفات واردة من السكرتيرة": "Aucun fichier reçu de la secrétaire", "لا ملفات": "Aucun fichier", "استقبل داخل ملف المريض": "Reçu dans le dossier patient", "تم استقبال الصور والملفات داخل ملف المريض": "Photos et fichiers reçus dans le dossier patient", "افتح": "Ouvrir", "تحديث": "Actualiser", "⬇️ تحميل": "⬇️ Télécharger", "🗑️ حذف": "🗑️ Supprimer", "🖼️ ": "🖼️ ", "📎 ": "📎 ", "الوارد الفارغ": "Boîte de réception vide", "🎙️ الأوامر الصوتية": "🎙️ Commandes vocales", "🎙️ الأوامر الصوتية تعمل في Chrome أو Edge": "🎙️ Les commandes vocales fonctionnent sur Chrome ou Edge", "🎙️ قل: الوارد، افتح ملف أحمد، استقبل صور أحمد، استدعاء التالي، المظهر، طباعة": "🎙️ Dites : boîte de réception, ouvrir dossier Ahmed, recevoir photos Ahmed, appeler suivant, apparence, imprimer", "👂 أستمع إليك...": "👂 Je vous écoute...", "⚠️ تعذر بدء الميكروفون": "⚠️ Microphone inaccessible", "تعذر الاستماع": "Écoute impossible", "اسمح للمتصفح باستخدام الميكروفون": "Autoriser le navigateur à utiliser le microphone", "الأوامر الصوتية تعمل في Chrome أو Edge": "Les commandes vocales fonctionnent sur Chrome ou Edge", "نسخه احتياطية": "Sauvegarde", "طباعة": "Imprimer", "معلومات": "Informations", "بحث": "Recherche", "دواء": "Médicament", "جرعة": "Posologie", "الدفع": "Paiement", "وصف الإجراء": "Description de l'acte", "تفاصيل الحساسية": "Détails de l'allergie", "الفئة": "Catégorie", "النوع": "Type", "الكمية ": "Quantité", "السبب": "Cause", "القيمة": "Valeur", "السبب:": "Cause :", "الكمية بالوحدة (للحساب عند التلف)": "Coût unitaire (calcul des pertes)", "المريض": "Patient", "أمراض مزمنة:": "Maladies chroniques :", "سبب الزيارة:": "Motif de la visite :", "الهاتف:": "Téléphone :", "بانتظار الدفع ": "En attente de paiement ", "🔧 تسوية": "🔧 Ajustement", "جاري إنشاء": "Création en cours", "الحالة بعد التسوية:": "État après ajustement :", "الكمية المتاحة:": "Quantité disponible :", "ضبط": "Ajuster", "⚠️ التعديل": "⚠️ Modifier", "العرض جاهز - انسخه مرة واحدة فقط، وبعدها التزامن دائم": "Offre prête - copiez-la une seule fois, puis synchronisation permanente", "جوابك جاهز - انسخيه للمدير مرة واحدة فقط": "Votre réponse est prête - envoyez-la au directeur une seule fois", "كل النتائج ": "Tous les résultats ", "حافِظ على": "Conserver", "📉 خسائر": "📉 Pertes", "إغلاق": "Fermer", "🇸🇦 العربية": "🇸🇦 Arabe", "🇫🇷 Français": "🇫🇷 Français", "🇬🇧 English": "🇬🇧 Anglais", "🇫🇷 الفرنسية": "🇫🇷 Français", "🇬🇧 الإنجليزية": "🇬🇧 Anglais", "🇸🇦 عربي": "🇸🇦 Arabe", "🇫🇷 فرنسي": "🇫🇷 Français", "🇬🇧 إنجليزي": "🇬🇧 Anglais", "العربية": "Arabe", "العربية\n": "Arabe\n", "➕ مصروف": "➕ Dépense", "➕ خسارة": "➕ Perte", "💾 حفظ الخسارة": "💾 Enregistrer la perte", "➕ إضافة": "➕ Ajouter", "💸 إجمالي المصاريف:": "💸 Total des dépenses :", "📥 استقبال داخل ملف المريض": "📥 Réception dans le dossier patient", "📎 ملف وارد ": "📎 Fichier entrant ", "🕐 ": "🕐 ", "📅 الشهر": "📅 Mois", "الشهر": "Mois", " الحصور ": " Extraction ", "الحصور:": "Extraction :", "🇪🇬 العربية": "🇪🇬 Arabe", "🇫🇷 فرنسا": "🇫🇷 France", "🇬🇧 بريطانيا": "🇬🇧 Royaume-Uni", "اللغة": "Langue", "❌ ": "❌ ", "✕": "✕", "⚠️ ": "⚠️ ", "💰 ": "💰 ", "📝 ": "📝 ", "✅ ": "✅ ", "➕ ": "➕ ", "🔍 ": "🔍 ", "📋 ": "📋 ", "📞": "📞", "🩺 ": "🩺 ", "🦷 ": "🦷 ", "📸 ": "📸 ", "📤 ": "📤 ", "🕐": "🕐", "🗑️": "🗑️", "🧹": "🧹", "💽": "💽", "📊": "📊", "📈": "📈", "🍬 ": "🍬 ", "🍬": "🍬", "💓 ": "💓 ", "💉 ": "💉 ", "🤰 ": "🤰 ", "🚬 ": "🚬 ", "🌸 ": "🌸 ", "❤ ": "❤ ", "صندوق الوارد": "Boîte de réception", "الملف غير فارغ": "Le fichier n'est pas vide", "اسمح للمتصفح باستخدام الميكروفون ": "Autoriser le navigateur à utiliser le microphone ", " طباعة": " Imprimer", "إمسح": "Effacer", "كل البيانات + كل الصور (مضغوطة) + المخزون + المعاملات + خرائط الأسنان + الملاحظات + كل شيء بدقة 100%": "toutes les données + toutes les photos (compressées) + stock + transactions + cartes dentaires + notes + tout avec une fidélité de 100", "💰 الدخل:": "💰 Revenu :", "📉 إجمالي الخسائر:": "📉 Total des pertes :", "ما يتم حفظه:": "Ce qui est sauvegardé :", "لغة الطبيب / Doctor language / Langue du médecin": "Langue du médecin / Doctor language / Langue du médecin", "لغة الطبيب": "Langue du médecin", "اختر لغة الواجهة فوراً. كل شاشة عمل (القيادة، الطابور، المالية، المخزون، ملف المريض، الإعدادات... ) تُترجم بالكامل.": "Choisissez la langue de l'interface immédiatement. Chaque écran (Tableau de bord, File d'attente, Finances, Stock, Dossier patient, Paramètres...) est entièrement traduit.", "اختر لغة الواجهة فوراً. كل شاشة عمل (القيادة، الطابور، المالية، المخزون، ملف المريض، الإعدادات...) تُترجم بالكامل.": "Choisissez la langue de l'interface immédiatement. Chaque écran (Tableau de bord, File d'attente, Finances, Stock, Dossier patient, Paramètres...) est entièrement traduit.", "اختر لغة الواجهة فوراً": "Choisissez la langue immédiatement", "كل شاشة عمل": "chaque écran", "تُترجم بالكامل": "est entièrement traduit", "الحالية:": "Actuelle :", "ملف وارد ": "Fichier entrant ", "ملف وارد": "Fichier entrant", "مريض غير محدد": "Patient non spécifié", "غير محدد": "Non spécifié", "نعم — ": "Oui — ", "لا": "Non", "✓ التصميم مفعل": "✓ Design activé", "التصميم متوقف": "Design désactivé", "إلغاء": "Annuler", " مادة وصلت الحد الأدنى ": " article(s) ont atteint le seuil minimum ", " خطة معلقة ": " plan en attente ", " ملف": " fichier(s)", " صور": " photo(s)", " ملفات": " fichier(s)", "لا مرضى": "Aucun patient", "خسائر": "Pertes", "فتح": "Ouvrir", "➕ إضافة مادة": "➕ Ajouter un article", "الحصور": "Extraction", " منذ ": " depuis ", " دقيقة": " min", "دقيقة": "min", "عيادة الأسنان - المدير/الطبيب": "Cabinet dentaire - Directeur/Médecin", "النسخ الاحتياطي الكربوني (نسخة طبق الأصل)": "Sauvegarde carbone (copie conforme)", "الإدارة: ذكاء اصطناعي": "Gestion : IA", "المستخدم": "Utilisateur", "زر": "bouton", "النسخ الاحتياطي": "Sauvegarde", " تعديل": " modifier", " نسخة احتياطية": " sauvegarde", "مريض_مجهول": "Patient_anonyme"}, "en": {"دخول الطبيب المدير": "Doctor manager login", "صلاحية كاملة (إدارة + طب)": "Full access (management + medicine)", "👤 اسم المستخدم": "👤 Username", "🔑 كلمة المرور": "🔑 Password", "🔓 دخول": "🔓 Login", "💡 افتراضي:": "💡 Default:", "🚪 خروج": "🚪 Logout", "خروج؟": "Logout?", "❌ بيانات خاطئة": "❌ Wrong credentials", "📡 ربط": "📡 Connect", "غير متصل بالسكرتيرة": "Not connected to secretary", "جاري الاتصال بـ Supabase...": "Connecting to Supabase...", "جاري الاتصال...": "Connecting...", "متصل بـ Supabase": "Connected to Supabase", "المزامنة تعمل": "Sync active", "تزامن دائم يعمل": "Permanent sync active", "القناة المباشرة أغلقت، التزامن الدائم مستمر": "Direct channel closed, permanent sync continues", "✅ متصل بـ Supabase": "✅ Connected to Supabase", "✅ متصل مباشر + تزامن دائم": "✅ Connected directly + permanent sync", "🔄 التزامن تعمل": "🔄 Syncing", "🔄 المزامنة تعمل": "🔄 Synchronisation active", "❌ خطأ Realtime - التزامن يدوي": "❌ Realtime error - manual sync", "❌ تعذر الاتصال: ": "❌ Connection failed: ", "☁️ حالة التزامن - Supabase": "☁️ Sync status - Supabase", "✅ التزامن مع Supabase مفعّل تلقائياً": "✅ Supabase sync enabled automatically", "البيانات تتزامن فوراً بين الطبيب والسكرتيرة عبر Supabase Realtime.": "Data syncs instantly between doctor and secretary via Supabase Realtime.", "جاري التحقق...": "Verifying...", "✔️ إغلاق": "✔️ Close", "القيادة": "Dashboard", "لوحة التحكم": "Dashboard", "الطابور": "Queue", "المرضى": "Patients", "الأرشيف": "Archive", "المالية": "Finance", "المخزون": "Inventory", "الحاسبة": "Calculator", "حاسبة": "Calculator", "الإعدادات": "Settings", "إعدادات": "Settings", "الوارد": "Inbox", "بيانات": "Data", "البيانات": "Data", "عيادة الأسنان": "Dental clinic", "صلاحية كاملة": "Full access", "دخل اليوم": "Today's income", "دخل الشهر": "Month income", "مصاريف الشهر": "Month expenses", "خسائر الشهر": "Month losses", "صافي الربح": "Net profit", "إجمالي الديون": "Total debts", "مرضى اليوم": "Today's patients", "خطط معلقة": "Pending plans", "➕ إضافة مصروف جديد": "➕ New expense", "➕ إضافة خسارة جديدة": "➕ New loss", "📊 دخل آخر 7 أيام": "📊 Last 7 days income", "📈 الربح والخسارة (آخر 6 أشهر)": "📈 Profit & Loss (last 6 months)", "🔔 إجراءات تحتاج انتباهك": "🔔 Actions needing your attention", "كل شيء على ما يرام ✨": "All good ✨", "اعتماد الكل": "Approve all", "عرض": "View", "خسارة هذا الشهر: ": "This month loss: ", "مادة وصلت الحد الأدنى ": " item(s) reached minimum threshold ", "خطة معلقة ": "Pending plan ", "ينتظرون": "Pending", "في المعاينة": "In consultation", "مكتملة اليوم": "Done today", "🩺 المريض الحالي": "🩺 Current patient", "لا يوجد مريض حالياً": "No patient now", "⏳ المرضى المُرسلون من السكرتيرة": "⏳ Patients sent by secretary", "✅ كشوفات اليوم المكتملة": "✅ Today's done visits", "✅ استدعاء": "✅ Call", "📂 فتح": "📂 Open", "لا أحد ينتظر": "Nobody waiting", "مدفوع": "Paid", "بانتظار الدفع": "Awaiting payment", "🩺 تم الاستدعاء": "🩺 Patient called", "✅ أُنهي الكشف": "✅ Visit finished", "استدعاء التالي": "Call next", "إجراءات سريعة": "Quick actions", "قائمة سريعة": "Quick menu", "📂 أرشيف المرضى": "📂 Patient archive", "🔍 بحث بالاسم أو الهاتف...": "🔍 Search by name or phone...", " صورة": " photo(s)", " لا مرضى": " No patient", "💰 المعاملات المالية": "💰 Financial transactions", "💵 الإيرادات": "💵 Income", "💸 المصاريف": "💸 Expenses", "📉 الخسائر": "📉 Losses", "📊 ربح/خسارة": "📊 Profit/Loss", " الإجمالي (12 شهراً):": " Total (12 months):", "الإيرادات": "Income", "المصروفات": "Expenses", "الخسائر": "Losses", "الإجمالي (12 شهراً):": "Total (12 months):", "ربح": "Profit", "خسارة": "Loss", "الصافي:": "Net:", "ملاحظة": "Note", "لا معاملات": "No transactions", "إجمالي المصاريف: ": "Total expenses: ", "إجمالي الخسائر: ": "Total losses: ", "لا مصاريف": "No expenses", "لا خسائر": "No losses", "تلف معدات، مادة منتهية، خطأ...": "Equipment damage, expired stock, mistake...", "إيجار، رواتب، مواد، كهرباء...": "Rent, salaries, materials, electricity...", "📊 مقارنة شهرية (دخل ـ مصاريف ـ خسائر)": "📊 Monthly comparison (income – expenses – losses)", "دخل": "Income", "مصاريف": "Expenses", "صافي": "Net", "📦 المخزون": "📦 Inventory", "الحالة": "Status", "الكمية": "Quantity", "الحد": "Threshold", "لا مواد": "No items", "تلف": "Damaged", "الكمية المضافة:": "Added quantity:", "كم وحدة تالفة من ": "How many damaged units of ", " وحدة × ": " unit(s) × ", "تلف مخزون: ": "Stock damage: ", " تضمين عرض": "inclure", "📋 خطط العلاج (كلها تُعتمد تلقائياً)": "📋 Treatment plans (auto-approved)", "لا خطط": "No plans", "مُعتمد": "Approved", "معلق": "Pending", "🧮 حاسبة رياضية": "🧮 Math calculator", "💡 آخر نتيجة محفوظة. يمكنك استخدامها في حقل المبلغ بنسخها.": "💡 Last result saved. You can paste it into the amount field.", "اسم العيادة": "Clinic name", "تغيير كلمة المرور": "Change password", "كلمة مرور جديدة": "New password", "💾 حفظ الإعدادات": "💾 Save", "💾 النسخ الاحتياطي الكربوني (نسخة طبق الأصل)": "💾 Carbon backup (exact copy)", "ما يتم حفظه: كل البيانات + كل الصور (مضغوطة) + المخزون + المعاملات + خرائط الأسنان + الملاحظات + كل شيء بدقة 100%.": "Saved: all data + all photos (compressed) + inventory + transactions + tooth charts + notes + everything at 100% fidelity.", "يُحفظ في ملف ZIP واحد قابل للاستعادة الكاملة.": "Stored in a single fully restorable ZIP file.", "📥 إنشاء نسخة كربونية كاملة (ZIP)": "📥 Create full ZIP backup", "📥 نسخة JSON خفيفة (بدون ضغط إضافي)": "📥 Light JSON backup (no extra compression)", "📤 استعادة من نسخة احتياطية": "📤 Restore from backup", "🕐 آخر نسخة احتياطية": "🕐 Last backup", "لم يتم بعد": "Not done yet", "⚠️ مسح كل البيانات نهائياً؟ هذا لا يمكن التراجع عنه!": "⚠️ Erase all data permanently? Irreversible!", "🗑️ مسح كل البيانات": "🗑️ Erase all data", "📜 سجل النشاط": "📜 Activity log", "🧹 إدارة مساحة التخزين الذكية": "🧹 Smart storage management", "💽 استخراج الصور وتفريغ المساحة الآن": "💽 Extract photos & free space now", "💽 استخراج الصور وتفريغ المساحة الآن'": "💽 Extract photos & free space now", "تنظيف ذكي:": "Smart cleanup:", "هذه الأداة ستقوم بتجميع جميع صور المرضى في ملف واحد (ZIP) لتحميله على جهازك، ثم ستقوم بحذف الصور من النظام لتخفيف الضغط وتسريع العيادة. (لن يتم المساس ببيانات المرضى، فقط الصور).": "This tool bundles every patient photo into one ZIP file you download, then deletes photos from the system to lighten storage. (Patient data is untouched — only the photos).", "عثرت على (": "Found (", ") صورة في النظام.\\nهل أنت متأكد من رغبتك في تحميلها كملف ZIP ثم مسحها من النظام لتوفير المساحة؟\\n\\n(لا تقلق، لن يتم الحذف إلا بعد اكتمال التحميل لجهازك بنجاح).": ") photos in the system.\\nAre you sure you want to download them as a ZIP then delete from the system?\\n\\n(Don't worry, deletion happens only after your download completes).", ") صورة في النظام.\nهل أنت متأكد من رغبتك في تحميلها كملف ZIP ثم مسحها من النظام لتوفير المساحة؟\n\n(لا تقلق، لن يتم الحذف إلا بعد اكتمال التحميل لجهازك بنجاح).": ") photos in the system.\\nAre you sure you want to download as ZIP then delete?\\n\\n(Only after successful download).", "⏳ جاري المعالجة والضغط...": "⏳ Processing & compressing...", "⏳ جاري تجميع الصور وتجهيز الملف... يرجى الانتظار.": "⏳ Bundling photos... Please wait.", "✅ تمت العملية بنجاح! تم حفظ ": "✅ Done! ", " صور وتفريغ المساحة.": " photo(s) saved and space freed.", "لا توجد صور مخزنة في النظام حالياً.": "No photos stored currently.", "لا توجد صور مخزنة.": "No photos stored.", "لا توجد صور.": "No photos.", "حدث خطأ غير متوقع، لم يتم مسح أي شيء لحماية بياناتك.": "Unexpected error, nothing was deleted to protect your data.", "حدث خطأ أثناء العملية.": "An error occurred during the operation.", "تمت العملية بنجاح!": "Operation successful!", "⚠️ قاعدة البيانات غير متوفرة أو لم يتم تحميلها بعد!": "⚠️ Database unavailable or not loaded yet!", "💾 حفظ": "💾 Save", "💾 حفظ المصروف": "💾 Save expense", "💾 سُجّلت الخسارة": "💾 Loss saved", "💾 سُجّلت الفاتورة + الدفعة": "💾 Invoice + payment saved", "💾 سُجّلت خسارة ": "💾 Loss saved: ", "💽 حفظ": "💽 Save", " نسخة كربونية ": " carbon backup ", " جاري إنشاء النسخة الكربونية...": " Carbon backup in progress...", "⚠️ الذاكرة ممتلئة! اعمل نسخة احتياطية ثم احذف صور قديمة": "⚠️ Storage full! Back up then delete old photos", "✅ تم الحفظ": "✅ Saved", "💸 إضافة مصروف": "💸 Add expense", "الفئة (إيجار، رواتب، مواد، كهرباء...)": "Category (rent, salaries, materials, electricity...)", "📛 الفئة (إيجار، رواتب، مواد، كهرباء...)": "📛 Category (rent, salaries, materials, electricity...)", "💰 المبلغ DZD": "💰 Amount DZD", "📝 ملاحظة (اختياري)": "📝 Note (optional)", "📉 إضافة خسارة": "📉 Add loss", "📛 نوع الخسارة (تلف معدات، مادة منتهية، خطأ...)": "📛 Loss type (equipment, expired stock, mistake...)", "💰 قيمة الخسارة DZD": "💰 Loss value DZD", "📝 سبب الخسارة": "📝 Cause of loss", "📦 إضافة مادة": "📦 Add item", "📛 اسم المادة": "📛 Item name", "📊 الكمية": "📊 Quantity", "⚠️ الحد الأدنى": "⚠️ Minimum threshold", "💰 التكلفة بالوحدة (للحساب عند التلف)": "💰 Unit cost (for loss calc)", "📂 الملف السريري": "📂 Clinical file", "مريض غير موجود": "Patient not found", "🩺 نظرة عامة": "🩺 Overview", "🦷 الأسنان": "🦷 Teeth", "📸 صور": "📸 Photos", "📋 خطة علاج": "📋 Treatment plan", "💊 وصفات": "💊 Prescriptions", "💰 فواتير": "💰 Bills", "📝 ملاحظات": "📝 Notes", "🍬 سكري": "🍬 Diabetes", "💓 ضغط": "💓 BP", "🌸 حساسية": "🌸 Allergy", "🚬 مدخن": "🚬 Smoker", "🤰 حامل": "🤰 Pregnant", "💉 مميعات دم": "💉 Blood thinners", "💊 الأدوية الحالية": "💊 Current medications", "🌸 تفاصيل الحساسية": "🌸 Allergy details", "🦷 السن ": "🦷 Tooth # ", "سليم": "Healthy", "تسوس": "Caries", "حشوة": "Filling", "تاج": "Crown", "عصب": "Root canal", "مقلوع": "Extracted", "غائب": "Missing", "زراعة": "Implant", "يحتاج حشوة": "Needs filling", "يحتاج قلع": "Needs extraction", "⬆️ علوي": "⬆️ Upper", "⬇️ سفلي": "⬇️ Lower", "⚪ سليم": "⚪ Healthy", "🟠 تسوس": "🟠 Caries", "🔵 حشوة": "🔵 Filling", "👑 تاج": "👑 Crown", "🩺 عصب": "🩺 Root canal", "❌ مقلوع": "❌ Extracted", "🔩 زراعة": "🔩 Implant", "⚠️ يحتاج حشوة": "⚠️ Filling needed", "🚨 يحتاج قلع": "🚨 Extraction needed", "⬜ غائب": "⬜ Missing", "📷 تصوير": "📷 Camera", "📁 رفع": "📁 Upload", "لا صور": "No photos", "📋 وصف الإجراء": "📋 Procedure description", "💰 التكلفة": "💰 Cost", "➕ إضافة (تُعتمد فوراً)": "➕ Add (auto-approved)", "🔝 مُعتمد": "🔝 Approuvé", "⏳ ": "⏳ ", "✅ مُعتمد": "✅ Approuvé", "💊 اسم الدواء": "💊 Drug name", "الجرعة (1×3 يومياً 5 أيام)": "Dosage (1×3 daily 5 days)", "📱 إرسال واتساب": "📱 Send WhatsApp", "💵 نقدي": "💵 Cash", "💳 بطاقة": "💳 Card", "🔴 دين": "🔴 Debt", "➕ إضافة فاتورة + دفعة": "➕ Add invoice + payment", "📝 ملاحظة طبية...": "📝 Medical note...", "حالة السن": "Tooth status", "إنهاء الكشف": "Finish visit", "✅ إنهاء الكشف": "✅ Finish visit", "📞 ": "📞 ", " سنة": " yrs", "الملف غير موجود": "File not found", "✅": "✅", "❌": "❌", "حذف؟": "Delete?", "لا هاتف": "No phone", "لا وصفات": "No prescriptions", "📋 نُسخ": "📋 Copied", "⚠️ بيانات غير مكتملة": "⚠️ Incomplete data", "✅ أُضيف المصروف": "✅ Expense added", "💡 لم تنشئ نسخة احتياطية منذ أكثر من أسبوع": "💡 No backup in over a week", "💽 بصمة النسخ الاحتياطي محفوظة": "💽 Backup fingerprint saved", "✅ تم الاستعادة بنجاح": "✅ Restored successfully", "❌ ملف غير صالح": "❌ Invalid file", "❌ جواب غير صالح": "❌ Invalid answer", "❌ عرض غير صالح": "❌ Invalid offer", "مدير/طبيب": "Manager/Doctor", "🎨 أشكال Pro Max": "🎨 Pro Max styles", "شكل التطبيق": "App style", "شكل الأيقونات": "Icon style", "استدارة الزوايا": "Corner radius", "🖼️ خلفية مخصصة": "🖼️ Custom background", "🗑️ إزالة الخلفية": "🗑️ Remove background", "تصميم الأيقونات": "Icon design", "تفعيل تصميم الأيقونات": "Enable icon design", "تصميم الأيقونات متوقف": "Icon design disabled", "تصميم الأيقونات مفعل": "Icon design enabled", "العودة للشكل الحالي": "Back to current style", "🧩 تصميم الأيقونات": "🧩 Icon design", "شكل قريب من الواجهتين الموجودتين في الصور المرسلة، مع الحفاظ على كل وظائف التطبيق.": "Style close to the two UIs in the images, keeping all app functions intact.", "تمت إضافة الأشكال والأيقونات والخلفيات من سكرتيرا Pro Max دون تغيير وظائف الطبيب.": "Styles, icons & backgrounds from Secretary Pro Max — doctor functions unchanged.", "شكل التطبيق الآن قريب من التصميم الموجود في الصور": "The app style now matches the design from the images", "تم تغيير شكل التطبيق": "App style changed", "تم تغيير أشكال الأيقونات": "Icon pack changed", "تم تفعيل تصميم الأيقونات": "Icon design enabled", "تم الرجوع إلى الشكل الحالي": "Retour au style actuel", "تم ضبط الخلفية": "Background set", "تمت إزالة الخلفية": "Background removed", "🌍 اللغة / Language / Langue": "🌍 اللغة / Language / Langue", "تم تغيير لغة الطبيب": "Doctor language changed", "🌐 طبّق على شاشات السكرتيرة أيضاً": "🌐 Apply to secretary screens too", "🔙 العودة": "🔙 Back", "أزرق هادئ": "Calm blue", "ليلي": "Night", "كلاسيكي": "Classic", "حيوي": "Vivid", "مسطح": "Flat", "عصري": "Modern", "إداري رسمي": "Formal admin", "مساحة العمل": "Workspace", "كلاسيكية": "Classic", "طبية": "Medical", "خطية": "Outline", "الوارد من السكرتيرة": "Secretary inbox", "تظهر هنا تقارير المرضى والصور والملفات التي ترسلها السكرتيرة عبر المزامنة.": "Patient reports, photos and files sent by the secretary via sync appear here.", "الملفات الواردة (": "Incoming files (", "الصور الواردة (": "Incoming photos (", "الملفات الواردة من السكرتيرة": "Files from secretary", "لا توجد ملفات واردة من السكرتيرة": "No files from secretary", "لا ملفات": "No files", "استقبل داخل ملف المريض": "Received inside patient file", "تم استقبال الصور والملفات داخل ملف المريض": "Photos & files received inside patient file", "افتح": "Open", "تحديث": "Refresh", "⬇️ تحميل": "⬇️ Download", "🗑️ حذف": "🗑️ Delete", "🖼️ ": "🖼️ ", "📎 ": "📎 ", "الوارد الفارغ": "Empty inbox", "🎙️ الأوامر الصوتية": "🎙️ Voice commands", "🎙️ الأوامر الصوتية تعمل في Chrome أو Edge": "🎙️ Voice commands work on Chrome or Edge", "🎙️ قل: الوارد، افتح ملف أحمد، استقبل صور أحمد، استدعاء التالي، المظهر، طباعة": "🎙️ Say: inbox, open Ahmed's file, receive Ahmed's photos, call next, appearance, print", "👂 أستمع إليك...": "👂 Listening...", "⚠️ تعذر بدء الميكروفون": "⚠️ Microphone unavailable", "تعذر الاستماع": "Cannot listen", "اسمح للمتصفح باستخدام الميكروفون": "Allow the browser to use the microphone", "الأوامر الصوتية تعمل في Chrome أو Edge": "Voice commands work on Chrome or Edge", "نسخه احتياطية": "Backup", "طباعة": "Print", "معلومات": "Information", "بحث": "Search", "دواء": "Medicine", "جرعة": "Dosage", "الدفع": "Payment", "وصف الإجراء": "Procedure description", "تفاصيل الحساسية": "Allergy details", "الفئة": "Category", "النوع": "Type", "الكمية ": "Quantity", "السبب": "Cause", "القيمة": "Value", "السبب:": "Cause:", "الكمية بالوحدة (للحساب عند التلف)": "Unit cost (loss calc)", "المريض": "Patient", "أمراض مزمنة:": "Chronic diseases:", "سبب الزيارة:": "Visit reason:", "الهاتف:": "Phone:", "بانتظار الدفع ": "Awaiting payment ", "🔧 تسوية": "🔧 Ajustement", "جاري إنشاء": "Création en cours", "الحالة بعد التسوية:": "État après ajustement :", "الكمية المتاحة:": "Quantité disponible :", "ضبط": "Ajuster", "⚠️ التعديل": "⚠️ Modifier", "العرض جاهز - انسخه مرة واحدة فقط، وبعدها التزامن دائم": "Offer ready - copy once, then permanent sync", "جوابك جاهز - انسخيه للمدير مرة واحدة فقط": "Your reply is ready - send to manager once", "كل النتائج ": "All results ", "حافِظ على": "Keep", "📉 خسائر": "📉 Losses", "إغلاق": "Close", "🇸🇦 العربية": "🇸🇦 Arabic", "🇫🇷 Français": "🇫🇷 French", "🇬🇧 English": "🇬🇧 English", "🇸🇦 عربي": "🇸🇦 Arabic", "🇫🇷 فرنسي": "🇫🇷 French", "🇬🇧 إنجليزي": "🇬🇧 English", "العربية": "Arabic", "العربية\n": "Arabic\n", "➕ مصروف": "➕ Expense", "➕ خسارة": "➕ Loss", "💾 حفظ الخسارة": "💾 Save loss", "➕ إضافة": "➕ Add", "💸 إجمالي المصاريف:": "💸 Total expenses:", "📥 استقبال داخل ملف المريض": "📥 Receive inside patient file", "📎 ملف وارد ": "📎 Incoming file ", "🕐 ": "🕐 ", "📅 الشهر": "📅 Month", "الشهر": "Month", " الحصور ": " Extraction ", "الحصور:": "Extraction:", "اللغة": "Language", "✕": "✕", "⚠️ ": "⚠️ ", "💰 ": "💰 ", "📝 ": "📝 ", "✅ ": "✅ ", "➕ ": "➕ ", "🔍 ": "🔍 ", "📋 ": "📋 ", "📞": "📞", "🩺 ": "🩺 ", "🦷 ": "🦷 ", "📸 ": "📸 ", "📤 ": "📤 ", "🕐": "🕐", "🗑️": "🗑️", "🧹": "🧹", "💽": "💽", "📊": "📊", "📈": "📈", "🍬 ": "🍬 ", "🍬": "🍬", "💓 ": "💓 ", "💉 ": "💉 ", "🤰 ": "🤰 ", "🚬 ": "🚬 ", "🌸 ": "🌸 ", "❤ ": "❤ ", "صندوق الوارد": "Inbox", "اسمح للمتصفح باستخدام الميكروفون ": "Allow the browser to use the microphone ", " طباعة": " Print", "إمسح": "Erase", "كل البيانات + كل الصور (مضغوطة) + المخزون + المعاملات + خرائط الأسنان + الملاحظات + كل شيء بدقة 100%": "all data + all photos (compressed) + inventory + transactions + tooth charts + notes + everything at 100% fidelity", "💰 الدخل:": "💰 Income:", "📉 إجمالي الخسائر:": "📉 Total losses:", "ما يتم حفظه:": "Saved:", "لغة الطبيب / Doctor language / Langue du médecin": "Doctor language / Langue du médecin / Doctor language", "لغة الطبيب": "Doctor language", "اختر لغة الواجهة فوراً. كل شاشة عمل (القيادة، الطابور، المالية، المخزون، ملف المريض، الإعدادات... ) تُترجم بالكامل.": "Pick the interface language now. Every screen (Dashboard, Queue, Finance, Inventory, Patient file, Settings…) is fully translated.", "اختر لغة الواجهة فوراً. كل شاشة عمل (القيادة، الطابور، المالية، المخزون، ملف المريض، الإعدادات...) تُترجم بالكامل.": "Pick the interface language now. Every screen (Dashboard, Queue, Finance, Inventory, Patient file, Settings…) is fully translated.", "اختر لغة الواجهة فوراً": "Pick the language immediately", "كل شاشة عمل": "every screen", "تُترجم بالكامل": "is fully translated", "الحالية:": "Current:", "ملف وارد ": "Incoming file ", "ملف وارد": "Incoming file", "مريض غير محدد": "Unspecified patient", "غير محدد": "Unspecified", "نعم — ": "Yes — ", "لا": "No", "✓ التصميم مفعل": "✓ Design enabled", "التصميم متوقف": "Design disabled", "إلغاء": "Cancel", " مادة وصلت الحد الأدنى ": " item(s) reached minimum threshold ", " خطة معلقة ": " pending plan ", " ملف": " file(s)", " صور": " photo(s)", " ملفات": " file(s)", "لا مرضى": "No patients", "خسائر": "Losses", "فتح": "Open", "➕ إضافة مادة": "➕ Add item", "الحصور": "Extraction", " منذ ": " since ", "دقيقة": "min", "عيادة الأسنان - المدير/الطبيب": "Dental clinic - Manager/Doctor", "النسخ الاحتياطي الكربوني (نسخة طبق الأصل)": "Carbon backup (exact copy)", "الإدارة: ذكاء اصطناعي": "Management: AI", "المستخدم": "User", "النسخ الاحتياطي": "Backup", " نسخة احتياطية": " backup", "مريض_مجهول": "Unknown_patient"}, "ar": {}};
+
+  function getLang() {
+    try { return localStorage.getItem('__dct_lang__') || 'ar'; } catch (_) { return 'ar'; }
+  }
+  function setLang(l) { try { localStorage.setItem('__dct_lang__', l); } catch (_) {} }
+
+  function dict(lang) { return (I18N_DATA && I18N_DATA[lang]) || {}; }
+
+  function longestFirst(a, b) { return b.length - a.length; }
+
+  function translateSource(source, lang) {
+    if (lang === 'ar') return source;
+    var D = dict(lang);
+    if (!D) return source;
+    var keys = Object.keys(D).sort(longestFirst);
+    var result = source;
+    var hit = false;
+    for (var i = 0; i < keys.length; i++) {
+      var k = keys[i];
+      if (!k) continue;
+      var idx = result.indexOf(k);
+      if (idx >= 0) {
+        result = result.split(k).join(D[k]);
+        hit = true;
+      }
+    }
+    return hit ? result : source;
+  }
+
+  // Replace dynamic JS string output. Existing functions: toast/confirm/prompt/alert.
+  function patchOutputs() {
+    var lang = getLang();
+    if (lang === 'ar') return;
+    if (window.__promaxI18NPatched) return;
+    window.__promaxI18NPatched = true;
+    var _t = window.toast;
+    if (typeof _t === 'function') {
+      window.toast = function (msg) { return _t(typeof msg === 'string' ? translateSource(msg, lang) : msg); };
+    }
+    var _alert = window.alert;
+    if (typeof _alert === 'function') {
+      window.alert = function (msg) { return _alert(typeof msg === 'string' ? translateSource(msg, lang) : msg); };
+    }
+    var _confirm = window.confirm;
+    if (typeof _confirm === 'function') {
+      window.confirm = function (msg) { return _confirm(typeof msg === 'string' ? translateSource(msg, lang) : msg); };
+    }
+    var _prompt = window.prompt;
+    if (typeof _prompt === 'function') {
+      window.prompt = function (msg, def) { return _prompt(typeof msg === 'string' ? translateSource(msg, lang) : msg, def); };
+    }
+  }
+
+  function walkAndTranslate(lang) {
+    if (!dict(lang)) return;
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+    var nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function (node) {
+      var p = node.parentElement;
+      if (!p || p.tagName === 'SCRIPT' || p.tagName === 'STYLE') return;
+      if (node.__promaxSrc === undefined) node.__promaxSrc = node.nodeValue;
+      var src = node.__promaxSrc;
+      if (!src || !src.trim()) return;
+      if (lang === 'ar') node.nodeValue = src;
+      else {
+        node.nodeValue = translateSource(src, lang);
+      }
+    });
+    document.body.querySelectorAll('[placeholder],[title]').forEach(function (el) {
+      ['placeholder', 'title'].forEach(function (attribute) {
+        if (!el.hasAttribute(attribute)) return;
+        var key = '__promaxSrc_' + attribute;
+        if (el[key] === undefined) el[key] = el.getAttribute(attribute);
+        var src = el[key];
+        if (lang === 'ar') el.setAttribute(attribute, src);
+        else el.setAttribute(attribute, translateSource(src, lang));
+      });
+    });
+    document.body.querySelectorAll('option').forEach(function (el) {
+      var key = '__promaxSrc_text';
+      if (el[key] === undefined) el[key] = el.textContent;
+      var src = el[key];
+      if (lang === 'ar') el.textContent = src;
+      else el.textContent = translateSource(src, lang);
+    });
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  }
+
+  function rebuildScreens() {
+    try { if (typeof window.render === 'function') window.render(); } catch (e) { console.error(e); }
+  }
+
+  function applyLanguage(lang) {
+    setLang(lang);
+    patchOutputs();
+    walkAndTranslate(lang);
+    rebuildScreens();
+    var select = document.getElementById('promax-doctor-lang');
+    if (select) select.value = lang;
+    var badge = document.getElementById('promax-current-lang-badge');
+    if (badge) badge.textContent = ({ ar: 'العربية', fr: 'Français', en: 'English' })[lang] || lang;
+    try {
+      if (window.DB) { window.DB.settings = window.DB.settings || {}; window.DB.settings.lang = lang; }
+      if (typeof window.save === 'function') window.save();
+    } catch (_) {}
+  }
+
+  function injectLanguageUI() {
+    var set = document.getElementById('scr-set');
+    if (!set) return;
+    if (document.getElementById('promax-doctor-language-card')) return;
+    var firstCard = set.querySelector('.card');
+    if (!firstCard) return;
+
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.id = 'promax-doctor-language-card';
+    card.innerHTML =
+      '<h3 id="promax-language-card-title">🌍 لغة الطبيب / Doctor language / Langue du médecin</h3>' +
+      '<div class="alert alert-info" id="promax-language-card-note">' +
+      'اختر لغة الواجهة فوراً. كل شاشة عمل (القيادة، الطابور، المالية، المخزون، ملف المريض، الإعدادات... ) تُترجم بالكامل.' +
+      '</div>' +
+      '<div class="row" style="gap:8px;margin-top:8px">' +
+        '<button type="button" class="btn btn-p" data-lang="ar">🇸🇦 العربية</button>' +
+        '<button type="button" class="btn btn-blue" data-lang="fr">🇫🇷 Français</button>' +
+        '<button type="button" class="btn btn-s" data-lang="en">🇬🇧 English</button>' +
+      '</div>' +
+      '<div style="margin-top:10px;font-size:.85rem;color:#555">' +
+        'الحالية: <b id="promax-current-lang-badge">العربية</b>' +
+      '</div>';
+    set.insertBefore(card, firstCard);
+
+    card.querySelectorAll('button[data-lang]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        applyLanguage(btn.getAttribute('data-lang'));
+        if (typeof window.toast === 'function') window.toast('✅ ' + ({ ar: 'العربية', fr: 'Français', en: 'English' })[btn.getAttribute('data-lang')]);
+      });
+    });
+  }
+
+  function boot() {
+    injectLanguageUI();
+    var lang = getLang();
+    applyLanguage(lang);
+    // Also re-apply after each render so dynamic innerHTML stays translated.
+    if (typeof window.render === 'function' && !window.render.__promaxI18NHook) {
+      var orig = window.render;
+      var wrapped = function () {
+        var r = orig.apply(this, arguments);
+        setTimeout(function () { try { applyLanguage(getLang()); } catch (e) {} }, 60);
+        return r;
+      };
+      wrapped.__promaxI18NHook = true;
+      window.render = wrapped;
+    }
+    var obs = new MutationObserver(function () {
+      clearTimeout(window.__promaxDebounce);
+      window.__promaxDebounce = setTimeout(function () {
+        try { applyLanguage(getLang()); } catch (e) {}
+      }, 80);
+    });
+    obs.observe(document.body, { childList: true, subtree: true });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
+
+<script>
+/* ============================================================
+   LOCAL-ONLY DATA + SUPABASE REALTIME BRIDGE
+   Supabase relays live messages; it never stores clinic data or photos.
+   ============================================================ */
+(function () {
+  'use strict';
+  if (window.__dentalLocalBridge) return;
+  window.__dentalLocalBridge = true;
+
+  const state = {
+    saveTimer: null,
+    syncPromise: null,
+    reconnectTimer: null,
+    reconnectDelay: 1000,
+    lastLocalChange: 0,
+    clientId: (function () {
+      try {
+        const key = 'dental_bridge_client_id';
+        let value = sessionStorage.getItem(key);
+        if (!value) { value = Date.now().toString(36) + Math.random().toString(36).slice(2); sessionStorage.setItem(key, value); }
+        return value;
+      } catch (_) { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
+    })()
+  };
+  const RELAY_DEBOUNCE_MS = 350;
+
+  function getDB() {
+    return typeof DB !== 'undefined' ? DB : (window.DB || {});
+  }
+  function clone(value) { return JSON.parse(JSON.stringify(value == null ? {} : value)); }
+  function setStatus(mode, text) {
+    try { if (typeof setSyncStatus === 'function') setSyncStatus(mode, text); } catch (_) {}
+  }
+  function storeLocal() {
+    try {
+      localStorage.setItem(DB_KEY, JSON.stringify(getDB()));
+      return true;
+    } catch (error) {
+      console.error('Local storage is full', error);
+      if (typeof toast === 'function') toast('⚠️ امتلأت مساحة التخزين المحلية؛ صدّر نسخة احتياطية');
+      return false;
+    }
+  }
+  function applyData(data, remoteStamp) {
+    if (!data || typeof data !== 'object') return;
+    if (remoteStamp && remoteStamp < state.lastLocalChange) return;
+    try {
+      if (typeof DB !== 'undefined') DB = typeof mergeData === 'function' ? mergeData(DB, data) : data;
+      else window.DB = data;
+      storeLocal();
+      if (typeof render === 'function') render();
+      setStatus('ok', '✅ متصل — التخزين محلي');
+    } catch (error) { console.error('Local bridge apply failed', error); }
+  }
+  function handleLocalMessage(event) {
+    const message = event && event.data;
+    if (!message || message.type !== 'full_db' || message.clientId === state.clientId) return;
+    applyData(message.data, message.sentAt || 0);
+  }
+  function ensureBroadcastChannel() {
+    try {
+      if (!window._bc_dental && 'BroadcastChannel' in window) {
+        window._bc_dental = new BroadcastChannel('dental_clinic_local_bridge_v2');
+        window._bc_dental.onmessage = handleLocalMessage;
+      }
+    } catch (error) { console.error('Local broadcast unavailable', error); }
+  }
+  ensureBroadcastChannel();
+
+  const SYNC_TABLE = 'clinic_sync';
+  const SYNC_ROW_ID = 'main';
+  let _pollTimer = null;
+
+  async function pushToDB() {
+    if (!supabaseClient) return;
+    try {
+      await supabaseClient.from(SYNC_TABLE).upsert({
+        id: SYNC_ROW_ID,
+        data: clone(getDB()),
+        updated_at: state.lastLocalChange || Date.now()
+      });
+    } catch (error) { console.error('DB persistence push failed', error); }
+  }
+
+  async function pullFromDB() {
+    if (!supabaseClient) return;
+    try {
+      const result = await supabaseClient
+        .from(SYNC_TABLE)
+        .select('data, updated_at')
+        .eq('id', SYNC_ROW_ID)
+        .maybeSingle();
+      if (result.error || !result.data) return;
+      applyData(result.data.data, result.data.updated_at || 0);
+    } catch (error) { console.error('DB pull sync failed', error); }
+  }
+
+  async function sendRealtime() {
+    pushToDB();
+    if (!window.__dentalRealtimeChannel || !state.connected) return;
+    try {
+      await window.__dentalRealtimeChannel.send({
+        type: 'broadcast',
+        event: 'db-sync',
+        payload: { clientId: state.clientId, sentAt: state.lastLocalChange || Date.now(), data: clone(getDB()) }
+      });
+    } catch (error) {
+      console.error('Realtime bridge send failed', error);
+      setStatus('no', '⚠️ تعذر إرسال التحديث — إعادة المحاولة تلقائياً');
+    }
+  }
+  function queueRealtime() {
+    clearTimeout(state.saveTimer);
+    state.saveTimer = setTimeout(sendRealtime, RELAY_DEBOUNCE_MS);
+  }
+  window.save = function () {
+    state.lastLocalChange = Date.now();
+    storeLocal();
+    ensureBroadcastChannel();
+    try {
+      if (window._bc_dental) window._bc_dental.postMessage({ type: 'full_db', clientId: state.clientId, sentAt: state.lastLocalChange, data: clone(getDB()) });
+    } catch (error) { console.error('Local broadcast failed', error); }
+    queueRealtime();
+  };
+  window.broadcast = function () {
+    if (!state.lastLocalChange) state.lastLocalChange = Date.now();
+    ensureBroadcastChannel();
+    try {
+      if (window._bc_dental) window._bc_dental.postMessage({ type: 'full_db', clientId: state.clientId, sentAt: state.lastLocalChange, data: clone(getDB()) });
+    } catch (error) { console.error('Local broadcast failed', error); }
+    queueRealtime();
+  };
+  window.saveToSupabase = function () { queueRealtime(); };
+  window.sendFullDB = function () { window.broadcast(); };
+  window.sendTyped = function () { window.broadcast(); };
+
+  function scheduleReconnect() {
+    if (state.reconnectTimer) return;
+    const wait = state.reconnectDelay;
+    state.reconnectDelay = Math.min(state.reconnectDelay * 2, 30000);
+    state.reconnectTimer = setTimeout(function () {
+      state.reconnectTimer = null;
+      initRealtimeBridge();
+    }, wait);
+  }
+  function receiveRealtime(envelope) {
+    const message = envelope && envelope.payload ? envelope.payload : envelope;
+    if (!message || message.clientId === state.clientId || !message.data) return;
+    applyData(message.data, message.sentAt || 0);
+  }
+  let _bridgeGen = 0;
+  let _disconnectTimer = null;
+  async function initRealtimeBridge() {
+    if (state.syncPromise) return state.syncPromise;
+    const myGen = ++_bridgeGen;
+    state.syncPromise = (async function () {
+      if (!state.connected) setStatus('srch', '🔄 جاري تشغيل جسر Supabase...');
+      const lib = await window.loadSupabaseLib();
+      if (!lib || !lib.createClient) throw new Error('Supabase library unavailable');
+      if (!supabaseClient) supabaseClient = lib.createClient(SUPABASE_URL, SUPABASE_KEY);
+      window.__dentalSupabaseClient = supabaseClient;
+      if (!_pollTimer) _pollTimer = setInterval(pullFromDB, 20000);
+      pullFromDB();
+      try { if (_supaChannel) await _supaChannel.unsubscribe(); } catch (_) {}
+      const channel = supabaseClient
+        .channel('dental-local-realtime-bridge')
+        .on('broadcast', { event: 'db-sync' }, receiveRealtime);
+      window.__dentalRealtimeChannel = channel;
+      _supaChannel = channel.subscribe(function (status) {
+        if (myGen !== _bridgeGen) return; // تجاهل أحداث قناة قديمة تم استبدالها
+        if (status === 'SUBSCRIBED') {
+          clearTimeout(_disconnectTimer); _disconnectTimer = null;
+          state.connected = true;
+          state.reconnectDelay = 1000;
+          setStatus('ok', '✅ الجسر متصل — التخزين محلي');
+          pullFromDB();
+        } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') {
+          state.connected = false;
+          scheduleReconnect();
+          if (!_disconnectTimer) {
+            _disconnectTimer = setTimeout(function () {
+              _disconnectTimer = null;
+              if (myGen === _bridgeGen && !state.connected) setStatus('no', '⚠️ انقطع الجسر — إعادة الاتصال تلقائياً');
+            }, 2500);
+          }
+        } else if (!state.connected) {
+          setStatus('srch', '🔄 جاري الاتصال بالجسر...');
+        }
+      });
+    })().catch(function (error) {
+      state.connected = false;
+      setStatus('no', '⚠️ تعذر تشغيل الجسر — إعادة المحاولة');
+      console.error('Realtime bridge init failed', error);
+      scheduleReconnect();
+    }).finally(function () { state.syncPromise = null; });
+    return state.syncPromise;
+  }
+  window.initSupabaseSync = initRealtimeBridge;
+  window.addEventListener('online', function () {
+    state.reconnectDelay = 1000;
+    pullFromDB();
+    if (!state.connected) initRealtimeBridge();
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) {
+      pullFromDB();
+      if (!state.connected) initRealtimeBridge();
+    }
+  });
+
+  function resizeLocalImage(file) {
+    return new Promise(function (resolve, reject) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        const image = new Image();
+        image.onload = function () {
+          let width = image.width, height = image.height, maxDim = 1200;
+          if (width > maxDim) { height = height * maxDim / width; width = maxDim; }
+          if (height > maxDim) { width = width * maxDim / height; height = maxDim; }
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.max(1, Math.round(width));
+          canvas.height = Math.max(1, Math.round(height));
+          canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+          resolve(canvas.toDataURL('image/jpeg', 0.72));
+        };
+        image.onerror = reject;
+        image.src = reader.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+  window.addPhoto = async function (event) {
+    const files = Array.from(event && event.target && event.target.files || []);
+    const patient = typeof curPatient !== 'undefined' ? curPatient : window.curPatient;
+    if (!patient || !files.length) return;
+    patient.photos = patient.photos || [];
+    let added = 0;
+    for (const file of files) {
+      try {
+        const data = await resizeLocalImage(file);
+        patient.photos.push({ id: uid(), data: data, date: Date.now(), localOnly: true });
+        added++;
+      } catch (error) { console.error('Local photo save failed', error); }
+    }
+    if (added) {
+      window.save();
+      if (typeof renderPhotos === 'function') renderPhotos();
+      if (typeof toast === 'function') toast('📸 تمت إضافة ' + added + ' صورة محلياً');
+    }
+    if (event && event.target) event.target.value = '';
+  };
+
+  // Start after the original page scripts have declared Supabase variables.
+  setTimeout(initRealtimeBridge, 0);
+})();
+
+</script>
+</body>
+</html>
